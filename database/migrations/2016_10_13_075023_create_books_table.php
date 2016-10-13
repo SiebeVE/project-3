@@ -22,7 +22,7 @@ class CreateBooksTable extends Migration
             $table->text('author');
             $table->text('condition'); // mogeljkheden bieden
             $table->integer('status');
-            $table->integer('owner_id');
+            $table->integer('owner_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('owner_id')->references('id')->on('users');

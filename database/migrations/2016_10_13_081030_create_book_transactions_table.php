@@ -15,9 +15,9 @@ class CreateBookTransactionsTable extends Migration
     {
         Schema::create('book_transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('book_id');
-            $table->integer('from_id');
-            $table->integer('to_id');
+            $table->integer('book_id')->unsigned();
+            $table->integer('from_id')->unsigned();
+            $table->integer('to_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('from_id')->references('id')->on('users');
