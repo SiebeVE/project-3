@@ -1,15 +1,25 @@
 // Fonts
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 
+
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 /* VARIABLES */
 $header-bg: #555;
 $menu-width: 250px!default;
+$fontcolor: darkgrey;
+
+$btn-border-radius-base:  100px;
+$btn-border-radius-large: 100px;
+$btn-border-radius-small: 100px;
+
+
+$brand-primary: #d56a18;
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 /* BASE */
 html,
@@ -33,8 +43,38 @@ a {
   margin: 0 20px;
 }
 
+.site-pusher,
+.site-container,
+.site-content {
+    height: 100%;
+}
+
+.site-pusher {
+  background-image: url(../imgs/bg.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
 .site-content {
   padding-top: 66px;
+}
+
+.site-cache {
+    transition: 0.3s;
+}
+
+.flex-container {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+
+  .btn {
+      margin-bottom: 15px;
+  }
 }
 
 /* HEADER */
@@ -50,10 +90,24 @@ a {
   background-color: $header-bg;
 }
 
+.header.transparant {
+    background-color: transparent;
+
+    background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+}
+
 .header__logo {
   font-weight: 700;
   padding: 0 25px;
   float: left;
+
+  &:hover, &:focus, &:active {
+      color: #fff;
+      text-decoration: none;
+  }
 }
 
 /* MENU */
@@ -87,12 +141,13 @@ a {
   
   .site-content {
     position: absolute;
+    height: auto;
     top: 66px;
     right: 0;
     left: 0;
     bottom: 0;
     padding-top: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
   
@@ -126,7 +181,8 @@ a {
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: darken($header-bg, 5);
+    background-color: #fff;
+    color: $fontcolor;
 /*    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;*/
     
@@ -141,7 +197,7 @@ a {
       text-align: center;
       line-height: 40px;
       
-      border-bottom: 1px solid $header-bg;
+      border-bottom: 1px solid lightgrey;
     }
   }
   
@@ -156,6 +212,9 @@ a {
       right: 0;
       bottom: 0;
       background-color: rgba(0,0,0,0.6);
+    //   -webkit-box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
+    //   -moz-box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
+    //   box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
     }
   }
 }

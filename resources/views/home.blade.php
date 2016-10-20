@@ -1,17 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Home</div>
 
-                <div class="panel-body">
-                    Home body
-                </div>
-            </div>
-        </div>
+    <div class="flex-container">
+        <button class="btn btn-lg btn-primary">Add book</button>
+        <button class="btn btn-lg btn-primary">View library</button>
     </div>
-</div>
+
 @endsection

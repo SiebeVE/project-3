@@ -21,10 +21,10 @@
     <div class="site-container">
         <div class="site-pusher">
 
-            <header class="header">
+            <header class="header transparant">
 
                 <a href="#" class="header__icon" id="header__icon"></a>
-                <a href="#" class="header__logo">Logo</a>
+                <a href="#" class="header__logo">Booksharing</a>
 
                 <nav class="menu">
                     <!-- Authentication Links -->
@@ -46,10 +46,7 @@
             </header>
 
             <div class="site-content">
-                <div class="container">
-                    @yield('content')
-                </div>
-                <!-- END container -->
+                @yield('content')
             </div>
             <!-- END site-content -->
             <div class="site-cache" id="site-cache"></div>
