@@ -23,3 +23,4 @@ Route::get('/home', 'HomeController@index');
 Route::get('/book/add', 'BookController@getAdd');
 Route::get('/book/add/finish', 'BookController@getAddFinish');
 Route::get('/book/add/{bookId}', 'BookController@getAddDetail');
+Route::post('/book/add/{bookId}', 'BookController@postAddDetail');
