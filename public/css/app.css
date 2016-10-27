@@ -5781,14 +5781,6 @@ a {
   text-decoration: none;
   color: inherit; }
 
-.container {
-  margin: 0 20px; }
-  .container:before, .container:after {
-    content: " ";
-    display: table; }
-  .container:after {
-    clear: both; }
-
 .site-pusher,
 .site-container,
 .site-content {
@@ -5859,6 +5851,13 @@ a {
 
 /* RESPONSIVE */
 @media only screen and (max-width: 768px) {
+  .header__logo {
+    font-weight: 700;
+    padding: 0 25px;
+    float: left; }
+    .header__logo:hover, .header__logo:focus, .header__logo:active {
+      color: #fff;
+      text-decoration: none; }
   .site-pusher,
   .site-container {
     height: 100%; }
@@ -5925,5 +5924,82 @@ a {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.6); } }
+
+/* Typography */
+/* Product Layout */
+.product-filter {
+  display: -webkit-box;
+  display: flex;
+  padding: 30px 0; }
+
+.sort {
+  display: -webkit-box;
+  display: flex;
+  align-self: flex-end; }
+
+.collection-sort {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column; }
+
+.collection-sort:first-child {
+  padding-right: 20px; }
+
+label {
+  color: #666;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 2em;
+  text-transform: uppercase; }
+
+.products {
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap; }
+
+.product-card {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  flex: 1 16%;
+  margin: 10px;
+  background-color: #FFF;
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4); }
+
+.product-image img {
+  width: 100%; }
+
+.product-info {
+  margin-top: auto;
+  text-align: center; }
+
+@media (max-width: 920px) {
+  .product-card {
+    -webkit-box-flex: 1;
+    flex: 1 21%; }
+  .products .product-card:first-child,
+  .products .product-card:nth-child(2) {
+    -webkit-box-flex: 2;
+    flex: 2 46%; } }
+
+@media (max-width: 600px) {
+  .product-card {
+    -webkit-box-flex: 1;
+    flex: 1 46%; } }
+
+@media (max-width: 480px) {
+  h1 {
+    margin-bottom: 20px; }
+  .product-filter {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column; }
+  .sort {
+    align-self: flex-start; } }
 
 /*# sourceMappingURL=app.css.map */
