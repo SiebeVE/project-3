@@ -1,30 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-	<style>
-		canvas.drawing, canvas.drawingBuffer
-		{
-			position: absolute;
-			left: 0;
-			top: 0;
-		}
-		
-		#interactive.viewport
-		{
-			position: relative;
-		}
-	</style>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-default">
-					<div class="panel-heading">Add a book</div>
+					<div class="panel-heading">Find a book</div>
 					
 					<div class="panel-body">
-						<div id="interactive" class="viewport">
-							<video autoplay="true" preload="auto" src=""></video>
-							<canvas class="drawingBuffer" width="640" height="480"></canvas>
-							<br clear="all"></div>
 						<form>
 							<div class="input-field">
 								<label for="search">Search:</label>
@@ -41,7 +24,6 @@
 		</div>
 	</div>
 	<script src="/js/jquery.min.js"></script>
-	<script src="/js/quagga.js"></script>
 	<script>
 		!function ( root, factory ) {
 			if (typeof define === 'function' && define.amd) {
@@ -140,114 +122,6 @@
 			};
 		});
 		
-		var api_key_book = "{{ env("API_KEY_BOOK") }}";
-		var api_url_book = "{{ env("API_URL_BOOK") }}";
-		
-		var options = {
-			callback: function ( currentSearch ) {
-				if (!(currentSearch == "" && currentSearch == null )) {
-					$.ajax({
-						url: api_url_book,
-						data: {
-							q: currentSearch,
-							key: api_key_book
-						},
-						success: function ( result ) {
-							if (result.totalItems > 0) {
-								var books = result.items;
-								var $listOfResults = $("#search-results");
-								$listOfResults.empty();
-								for (var book in books) {
-									var $newBook = $("<li>");
-									var $link = $("<a>").attr("href", "/book/add/" + books [ book ].id);
-									var $image = $("<img>");
-									if (books[ book ].volumeInfo.hasOwnProperty("imageLinks")) {
-										$image.attr("src", books[ book ].volumeInfo.imageLinks.smallThumbnail);
-									}
-									else {
-										$image.attr("src", "https://www.hachettebookgroup.com/_b2c/static/site_theme/img/missingbook.png");
-									}
-									$newBook.append($link.append($image));
-									$listOfResults.append($newBook);
-								}
-							}
-							console.log(result);
-						},
-						dataType: "json"
-					});
-				}
-			},
-			wait: 250,
-			highlight: true,
-			allowSubmit: false,
-			captureLength: 2
-		};
-		
 		$(".input-field #search").typeWatch(options);
-		
-		$(function () {
-			var App = {
-				init: function () {
-					Quagga.init(this.state, function ( err ) {
-						if (err) {
-							console.log(err);
-							return;
-						}
-						Quagga.start();
-					});
-				},
-				state: {
-					inputStream: {
-						type: "LiveStream",
-						constraints: {
-							width: {min: 640},
-							height: {min: 480},
-							aspectRatio: {min: 1, max: 100},
-							facingMode: "environment" // or user
-						}
-					},
-					locator: {
-						patchSize: "medium",
-						halfSample: true
-					},
-					numOfWorkers: 4,
-					decoder: {
-						readers: [
-							{
-								format: "ean_reader",
-								config: {}
-							} ]
-					},
-					locate: true
-				},
-				lastResult: null
-			};
-			
-			App.init();
-			
-			Quagga.onDetected(function ( result ) {
-				var code = result.codeResult.code;
-				
-				if (App.lastResult !== code) {
-					App.lastResult = code;
-					console.log(result);
-					 var barcode = result.codeResult.code;
-//					var barcode = "9780312325862";
-					
-					$.ajax({
-						url: api_url_book,
-						data: {
-							q: barcode,
-							key: api_key_book
-						},
-						success: function ( result ) {
-							console.log(result);
-							window.location = "{{ env("APP_URL") }}book/add/"+result.items[0].id;
-						},
-						dataType: "json"
-					});
-				}
-			});
-		});
 	</script>
 @endsection
