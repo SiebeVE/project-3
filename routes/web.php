@@ -18,6 +18,12 @@ Route::get('/', function() {
 
 Auth::routes();
 
+Route::get('home', function () {
+    return view('home');
+}, ['as'=>'home']);
+
+Route::get('library', 'LibraryController@index', ['as'=>'library']);
+
 Route::get('/home', 'HomeController@index');
 
 Route::get('/book/add', 'BookController@getAdd');
