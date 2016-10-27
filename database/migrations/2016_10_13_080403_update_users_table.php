@@ -18,11 +18,11 @@ class UpdateUsersTable extends Migration
             $table->string('firstname');
             $table->string('lastname');
 
-            $table->string('street');
-            $table->integer('number');
-            $table->integer('postal');
-            $table->string('city');
-            $table->string('country');
+            $table->string('street')->nullable();
+            $table->integer('number')->nullable();
+            $table->integer('postal')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
         });
     }
 
