@@ -1,9 +1,220 @@
-
 // Fonts
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
 
 // Variables
 @import "variables";
 
+
+/* VARIABLES */
+$header-bg: #555;
+$menu-width: 250px!default;
+$fontcolor: darkgrey;
+
+$btn-border-radius-base:  100px;
+$btn-border-radius-large: 100px;
+$btn-border-radius-small: 100px;
+
+
+$brand-primary: #d56a18;
+
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+/* BASE */
+html,
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1em;
+  line-height: 1.4;
+  height: 100%;
+  
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  @include clearfix;
+  margin: 0 20px;
+}
+
+.site-pusher,
+.site-container,
+.site-content {
+    height: 100%;
+}
+
+.site-pusher {
+  background-image: url(../imgs/bg.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.site-content {
+  padding-top: 66px;
+}
+
+.site-cache {
+    transition: 0.3s;
+}
+
+.flex-container {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+
+  .btn {
+      margin-bottom: 15px;
+  }
+}
+
+/* HEADER */
+.header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 66px;
+  
+  line-height: 66px;
+  color: #fff;
+  
+  background-color: $header-bg;
+}
+
+.header.transparant {
+    background-color: transparent;
+
+    background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+}
+
+.header__logo {
+  font-weight: 700;
+  padding: 0 25px;
+  float: left;
+
+  &:hover, &:focus, &:active {
+      color: #fff;
+      text-decoration: none;
+  }
+}
+
+/* MENU */
+.menu {
+  float: left;
+  
+  a {
+    padding: 0 10px;
+  }
+  
+  a:hover {
+    color: #c5cae9;
+  }
+}
+
+/* RESPONSIVE */
+@media only screen and (max-width: 768px) {
+  .site-pusher,
+  .site-container {
+    height: 100%;
+  }
+  
+  .site-container {
+    overflow: hidden;
+  }
+  
+  .site-pusher {
+    transition-duration: 0.3s;
+    transform: translateX(0px);
+  }
+  
+  .site-content {
+    position: absolute;
+    height: auto;
+    top: 66px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    padding-top: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .header {
+    position: static;
+  }
+  
+  .header__icon {
+    position: relative;
+    display: block;
+    float: right;
+    width: 50px;
+    height: 66px;
+    
+    cursor: pointer;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 1rem;
+      height: 0;
+      top: 16px;
+      left: 15px;
+      box-shadow:0 10px 0 1px #fff, 0 16px 0 1px #fff, 0 22px 0 1px #fff;
+    }
+  }
+  
+  .menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #fff;
+    color: $fontcolor;
+/*    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;*/
+    
+    width: $menu-width;
+    
+    transform: translateX($menu-width ); // * -1);
+
+    a {
+      display: block;
+      height: 40px;
+      
+      text-align: center;
+      line-height: 40px;
+      
+      border-bottom: 1px solid lightgrey;
+    }
+  }
+  
+  .with--sidebar {
+    .site-pusher {
+      transform: translateX(- $menu-width);
+    }
+    .site-cache {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.6);
+    //   -webkit-box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
+    //   -moz-box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
+    //   box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
+    }
+  }
+}
