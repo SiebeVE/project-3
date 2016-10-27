@@ -16,6 +16,7 @@ Route::get('/', function() {
     return redirect('home');
 });
 
+Auth::routes();
 
 Route::get('home', function () {
     return view('home');
@@ -23,4 +24,9 @@ Route::get('home', function () {
 
 Route::get('library', 'LibraryController@index', ['as'=>'library']);
 
-Auth::routes();
+Route::get('/home', 'HomeController@index');
+
+Route::get('/book/add', 'BookController@getAdd');
+Route::get('/book/add/finish', 'BookController@getAddFinish');
+Route::get('/book/add/{bookId}', 'BookController@getAddDetail');
+Route::post('/book/add/{bookId}', 'BookController@postAddDetail');
