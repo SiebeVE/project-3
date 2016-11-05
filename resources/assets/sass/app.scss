@@ -4,6 +4,8 @@
 @import "variables";
 
 /* VARIABLES */
+$brandColor: #d56a18;
+
 $header-bg: #555;
 $menu-width: 250px !default;
 $fontcolor: darkgrey;
@@ -12,7 +14,7 @@ $btn-border-radius-base: 100px;
 $btn-border-radius-large: 100px;
 $btn-border-radius-small: 100px;
 
-$brand-primary: #d56a18;
+$brand-primary: $brandColor;
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
@@ -34,10 +36,45 @@ a {
   color: inherit;
 }
 
-//.container {
-//  @include clearfix;
-//  margin: 0 20px;
-//}
+.panel.panel-book {
+  h1, h2 {
+    margin-top: 0;
+  }
+  h1 {
+    font-size: 28px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  .information {
+    background-color: #e1e1e1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    // Smaller gutter on mobile (default is 30px...)
+    margin-left: -15px;
+
+    .col-xs-1 {
+      text-align: center;
+    }
+    & > .row > div {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      .fa {
+        margin-right: 10px;
+      }
+    }
+  }
+  img.bookcover {
+    width: 100%;
+  }
+}
+
+/**
+  * Site structure;
+  * Side menu
+  */
 
 .site-pusher,
 .site-container,
@@ -316,5 +353,4 @@ label {
   .flex-card-list li:nth-child(4n+1) {
     clear: both;
   }
-
 }

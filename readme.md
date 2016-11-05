@@ -17,4 +17,3 @@ Bookshare.ga is een lokale en sociale manier om boeken te delen, gratis, tegen b
 ## To-Do
 
 - [ ] Features books on the homepage
-- [ ] ​
