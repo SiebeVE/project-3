@@ -10,5 +10,8 @@
     "jquery": "^3.1.0",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-webpack-official": "^1.0.2"
+  },
+  "dependencies": {
+    "readmore-js": "^2.1.0"
   }
 }

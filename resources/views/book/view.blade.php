@@ -15,34 +15,61 @@
                 <h2>by {{$book->author}}</h2>
 
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-sm-4">
                         <img src="{{$book->image}}" class="bookcover" alt="{{$book->title}}">
+                        <div class="information">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-barcode" aria-hidden="true"></i>
+                                    ISBN: <small>{{$book->isbn}}</small>
+                                </li>
+                                <li>
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    {{$book->pageCount}} pages
+                                </li>
+                                <li>
+                                    <i class="fa fa-globe" aria-hidden="true"></i>
+                                    {{$book->fullLanguage}}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-xs-6">
-                        <div class="col-md-12 information">
-                            <div class="row">
-                                <div class="col-xs-1"><i class="fa fa-barcode" aria-hidden="true"></i></div>
-                                <div class="col-xs-9">
-                                    ISBN: <br>
-                                    <small>{{$book->isbn}}</small>
-                                </div>
+                    <div class="col-sm-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    7 available
+                                </h3>
                             </div>
-                            <div class="row">
-                                <div class="col-xs-1"><i class="fa fa-book" aria-hidden="true"></i></div>
-                                <div class="col-xs-9">{{$book->pageCount}} pages</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-1"><i class="fa fa-globe" aria-hidden="true"></i> </div>
-                                <div class="col-xs-9">{{$book->fullLanguage}}</div>
-                            </div>
+                            <table class="table">
+
+                            </table>
+                        </div>
+
+                        <div class="description">
+                            <p>
+                                {!!$book->description!!}
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <p>
-                    {!!$book->description!!}
-                </p>
+
             </div>
         </div>
     </div>
+
+    <script src="/js/libs/readmore.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            (function($) {
+
+                $('.description').readmore();
+
+            })(jQuery);
+
+        });
+
+    </script>
 @endsection
