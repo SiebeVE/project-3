@@ -36,6 +36,10 @@ a {
   color: inherit;
 }
 
+table.table {
+  margin-bottom: 0;
+}
+
 .panel.panel-book {
   h1, h2 {
     margin-top: 0;
@@ -57,18 +61,35 @@ a {
     ul {
       margin: 0;
       li {
-        font-size: 1.2em;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         .fa {
-          margin-right:10px;
+          margin-right: 10px;
         }
       }
     }
   }
   img.bookcover {
     width: 100%;
+  }
+}
+
+// Collapsable stuff
+.clickable {
+  cursor: pointer;
+}
+
+.clickable .fa-chevron-down {
+  display: none;
+}
+
+.clickable[aria-expanded="true"] {
+  .fa.fa-chevron-down {
+    display: inline-block;
+  }
+  .fa-chevron-right {
+    display: none;
   }
 }
 
@@ -81,7 +102,7 @@ a {
 .site-container,
 .site-content {
   min-height: 100%;
-  //height: 100%;
+  height: 100%;
 }
 
 .site-pusher {
@@ -92,6 +113,8 @@ a {
 
 .site-content {
   padding-top: 66px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .site-cache {
@@ -195,8 +218,6 @@ a {
     left: 0;
     bottom: 0;
     padding-top: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
   .header {
@@ -307,7 +328,7 @@ label {
   display: flex;
   text-decoration: none;
   color: inherit;
-  &:hover {
+  &:hover, &:focus, &:active {
     text-decoration: none;
   }
 }
