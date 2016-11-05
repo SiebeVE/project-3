@@ -26,6 +26,5 @@ Route::get('/book/add', 'BookController@getAdd')->name('book.add');
 Route::get('/book/add/finish', 'BookController@getAddFinish');
 Route::get('/book/add/{bookId}', 'BookController@getAddDetail');
 Route::post('/book/add/{bookId}', 'BookController@postAddDetail');
-Route::get('/book/{book}', 'BookController@view')->name('book.view');
-
 Route::get('/book/find', 'BookController@getFind');
+Route::get('/book/{book}', 'BookController@view')->name('book.view');

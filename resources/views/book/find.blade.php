@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('header_left')
+	<a href="/">
+		<i class="fa fa-chevron-left" aria-hidden="true"></i>
+		Home
+	</a>
+@endsection
+
 @section('content')
 	<div class="container">
 		<div class="row">
@@ -21,10 +28,19 @@
 								</div>
 							</form>
 							<ul class="list" id="search-results">
-								@foreach($books as $book)
+								@foreach($availableBooks as $book)
 									<li>
-										<h4 class="title">{{ $book->title }}</h4>
-										<p class="author">{{ $book->author }}</p>
+										<h4 class="title">{{ $book['title'] }}</h4>
+										<p class="author">{{ $book['author'] }}</p>
+										@foreach($book['type'] as $type=>$data)
+											<span class="type">{{ $type }}</span>
+											@foreach($data as $owned)
+												@if($owned["closest"])
+													<span class="distance">({{ $owned["distance"]["duration"]["text"] }})</span>
+												@endif
+											@endforeach
+										@endforeach
+										{{--<p class="type">{{ $book['type'] }}</p>--}}
 									</li>
 								@endforeach
 							</ul>
@@ -40,15 +56,8 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
 	<script src="/js/list.fuzzysearch.min.js"></script>
 	<script>
-		var fuzzyOptions = {
-			searchClass: "fuzzy-search",
-			location: 0,
-			distance: 100,
-			threshold: 0.4,
-			multiSearch: true
-		};
 		var options = {
-			valueNames: [ 'title', 'author' ],
+			valueNames: [ 'title', 'author', 'type' ],
 			page: 10,
 			plugins: [
 				ListFuzzySearch(),

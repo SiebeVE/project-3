@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('header_left')
+	<a href="/">
+		<i class="fa fa-chevron-left" aria-hidden="true"></i>
+		Home
+	</a>
+@endsection
+
 @section('content')
 	<style>
 		canvas.drawing, canvas.drawingBuffer
