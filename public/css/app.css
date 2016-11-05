@@ -5790,19 +5790,17 @@ a {
 .panel.panel-book h2 {
   font-size: 20px; }
 
+.panel.panel-book .description {
+  overflow: hidden; }
+
 .panel.panel-book .information {
   background-color: #e1e1e1;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-left: -15px; }
-  .panel.panel-book .information .col-xs-1 {
-    text-align: center; }
-  .panel.panel-book .information > .row > div {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden; }
-    .panel.panel-book .information > .row > div .fa {
-      margin-right: 10px; }
+  padding: 5px;
+  margin: 15px;
+  border-radius: 5px; }
+
+.panel.panel-book .table {
+  margin-bottom: 0; }
 
 .panel.panel-book img.bookcover {
   width: 100%; }
@@ -5814,6 +5812,7 @@ a {
 .site-pusher,
 .site-container,
 .site-content {
+  min-height: 100%;
   height: 100%; }
 
 .site-pusher {
@@ -5900,9 +5899,10 @@ a {
     -webkit-transform: translateX(0px);
     transform: translateX(0px); }
   .site-content {
+    z-index: -1;
     position: absolute;
     height: auto;
-    top: 66px;
+    top: 0px;
     right: 0;
     left: 0;
     bottom: 0;
