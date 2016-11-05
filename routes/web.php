@@ -23,8 +23,13 @@ Route::get('library', 'LibraryController@index')->name('library');
 Route::get('/home', 'HomeController@index');
 
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
+
 Route::get('/book/add/finish', 'BookController@getAddFinish');
 Route::get('/book/add/{bookId}', 'BookController@getAddDetail');
 Route::post('/book/add/{bookId}', 'BookController@postAddDetail');
+
+Route::get('/book/buy/{bookUser}', 'BookController@getBuy');
+Route::get('/book/buy/confirm/recieved/{bookUser}', 'BookController@getBuyConfirmRecieved');
+
 Route::get('/book/find', 'BookController@getFind');
 Route::get('/book/{book}', 'BookController@view')->name('book.view');

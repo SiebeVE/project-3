@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class BookUser extends Model
 {
+	// Status
+	// 0: Book is available to everyone
+	// 1: Book is sold but not yet in possession of other party
+	// 2: Book is sold to other user
+
 	protected $guarded = [];
+
+	protected $table = "book_user";
 
 	public function book () {
 		return $this->belongsTo(Book::class);
