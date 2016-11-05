@@ -1,20 +1,16 @@
 // Fonts
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
-
-
 // Variables
 @import "variables";
 
-
 /* VARIABLES */
 $header-bg: #555;
-$menu-width: 250px!default;
+$menu-width: 250px !default;
 $fontcolor: darkgrey;
 
-$btn-border-radius-base:  100px;
+$btn-border-radius-base: 100px;
 $btn-border-radius-large: 100px;
 $btn-border-radius-small: 100px;
-
 
 $brand-primary: #d56a18;
 
@@ -28,7 +24,7 @@ body {
   font-size: 1em;
   line-height: 1.4;
   height: 100%;
-  
+
   margin: 0;
   padding: 0;
 }
@@ -46,7 +42,7 @@ a {
 .site-pusher,
 .site-container,
 .site-content {
-    height: 100%;
+  height: 100%;
 }
 
 .site-pusher {
@@ -60,7 +56,7 @@ a {
 }
 
 .site-cache {
-    transition: 0.3s;
+  transition: 0.3s;
 }
 
 .flex-container {
@@ -73,7 +69,7 @@ a {
   padding: 15px;
 
   .btn {
-      margin-bottom: 15px;
+    margin-bottom: 15px;
   }
 }
 
@@ -83,20 +79,20 @@ a {
   left: 0;
   right: 0;
   height: 66px;
-  
+
   line-height: 66px;
   color: #fff;
-  
+
   background-color: $header-bg;
 }
 
 .header.transparant {
-    background-color: transparent;
+  background-color: transparent;
 
-    background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a6000000', endColorstr='#00000000', GradientType=0); /* IE6-9 */
 }
 
 .header__logo {
@@ -105,19 +101,20 @@ a {
   float: left;
 
   &:hover, &:focus, &:active {
-      color: #fff;
-      text-decoration: none;
+    color: #fff;
+    text-decoration: none;
   }
 }
 
 /* MENU */
 .menu {
-  float: left;
-  
+  float: right;
+  padding: 0 15px;
+
   a {
     padding: 0 10px;
   }
-  
+
   a:hover {
     color: #c5cae9;
   }
@@ -127,7 +124,7 @@ a {
 @media only screen and (max-width: 768px) {
   .header__logo {
     font-weight: 700;
-    padding: 0 25px;
+    padding: 0 12px;
     float: left;
 
     &:hover, &:focus, &:active {
@@ -140,16 +137,16 @@ a {
   .site-container {
     height: 100%;
   }
-  
+
   .site-container {
     overflow: hidden;
   }
-  
+
   .site-pusher {
     transition-duration: 0.3s;
     transform: translateX(0px);
   }
-  
+
   .site-content {
     position: absolute;
     height: auto;
@@ -161,20 +158,20 @@ a {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   .header {
     position: static;
   }
-  
+
   .header__icon {
     position: relative;
     display: block;
     float: right;
     width: 50px;
     height: 66px;
-    
+
     cursor: pointer;
-    
+
     &:after {
       content: '';
       position: absolute;
@@ -183,10 +180,10 @@ a {
       height: 0;
       top: 16px;
       left: 15px;
-      box-shadow:0 10px 0 1px #fff, 0 16px 0 1px #fff, 0 22px 0 1px #fff;
+      box-shadow: 0 10px 0 1px #fff, 0 16px 0 1px #fff, 0 22px 0 1px #fff;
     }
   }
-  
+
   .menu {
     position: absolute;
     right: 0;
@@ -194,24 +191,24 @@ a {
     bottom: 0;
     background-color: #fff;
     color: $fontcolor;
-/*    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;*/
-    
+    /*    overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;*/
+
     width: $menu-width;
-    
-    transform: translateX($menu-width ); // * -1);
+
+    transform: translateX($menu-width); // * -1);
 
     a {
       display: block;
       height: 40px;
-      
+
       text-align: center;
       line-height: 40px;
-      
+
       border-bottom: 1px solid lightgrey;
     }
   }
-  
+
   .with--sidebar {
     .site-pusher {
       transform: translateX(- $menu-width);
@@ -222,35 +219,13 @@ a {
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0,0,0,0.6);
-    //   -webkit-box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
-    //   -moz-box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
-    //   box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
+      background-color: rgba(0, 0, 0, 0.6);
+      //   -webkit-box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
+      //   -moz-box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
+      //   box-shadow: inset -100px 0px 100px -100px rgba(0,0,0,0.58);
     }
   }
 }
-
-
-
-// Product grid
-
-/* Typography */
-
-//h1 {
-//  font-size: 28px;
-//  font-weight: 300;
-//  flex: 1;
-//}
-//
-//h5 {
-//  font-weight: 500;
-//  line-height: 1.7em;
-//}
-//
-//h6 {
-//  color: #666;
-//  font-size: 14px;
-//}
 
 /* Product Layout */
 
@@ -281,65 +256,60 @@ label {
   text-transform: uppercase;
 }
 
-.products {
+// New product flex
+.flex-card-list {
   display: flex;
   flex-wrap: wrap;
+  padding-left: 0;
 }
 
-.product-card {
+.flex-card-listitem {
   display: flex;
-  flex-direction: column;
-
-  //padding: 2%;
-  flex: 1 16%;//16%;
-  margin: 10px;
-
-  background-color: #FFF;
-  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4);
 }
 
-.product-image img {
+.flex-card {
   width: 100%;
+  background-color: #fff;
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4);
+  margin-bottom: 1em;
 }
 
-.product-info {
-  margin-top: auto;
-  text-align: center;
+.flex-card-content {
+  padding: 0 1em;
+  padding-bottom: 1em;
 }
 
-@media ( max-width: 920px ) {
-
-  .product-card {
-    flex: 1 21%;
+.flex-card-image {
+  flex: 1 0 auto; /* We have to add a basis for IE10/11 */
+  img {
+    width: 100%;
   }
-
-  .products .product-card:first-child,
-  .products .product-card:nth-child(2) {
-    flex: 2 46%;
-  }
-
 }
 
-@media ( max-width: 600px ) {
+/* Code to adjust the layout to 2 cards per row */
+@media all and (min-width: 480px) {
 
-  .product-card {
-    flex: 1 46%;
+  .flex-card-list {
+    margin-left: -1em; // compensate for the left padding on li
+
+    li {
+      width: 50%;
+      padding-left: 1em;
+      float: left;
+    }
   }
-
 }
 
-@media ( max-width: 480px ) {
+@media all and (min-width: 770px) {
 
-  h1 {
-    margin-bottom: 20px;
+  /* common to flex and non-flex */
+  .flex-card-list li {
+    width: 25%;
   }
 
-  .product-filter {
-    flex-direction: column;
-  }
-
-  .sort {
-    align-self: flex-start;
+  /* Float specific: Clear after every fourth item */
+  .flex-card-list li:nth-child(4n+1) {
+    clear: both;
   }
 
 }

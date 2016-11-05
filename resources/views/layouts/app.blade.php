@@ -11,6 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <link href="/css/libs.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
 
     <!-- Scripts -->
@@ -32,7 +33,7 @@
                 <a href="#" class="header__icon" id="header__icon"></a>
                 <a href="#" class="header__logo">Booksharing</a>
 
-                <nav class="menu">
+                <nav class="menu pull-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <a href="{{ url('/login') }}">Login</a>

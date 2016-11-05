@@ -32,21 +32,50 @@
             </div>-->
         </nav>
 
-        <section class="products">
 
-            @foreach($books as $book)
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="{!! $book->image !!}" alt="{{$book->title}}">
+        <!-- card list -->
+        <ul class="flex-card-list">
+        @foreach($books as $book)
+            <!-- card list item -->
+                <li class="flex-card-listitem">
+                    <!-- card module -->
+                    <div class="flex-card">
+                        <!-- image container -->
+                        <div class="flex-card-image">
+                            <img src="{!! $book->image !!}" alt="{{$book->title}}">
+                        </div>
+                        <!-- content container -->
+                        <div class="flex-card-content">
+                            <h3>{{$book->title}}</h3>
+                            <span>
+                                <i class="fa fa-bicycle" aria-hidden="true"></i>
+                                5 min.
+                            </span>
+                            <span class="pull-right">
+                                <i class="fa fa-eur" aria-hidden="true"></i>
+                                5,00
+                            </span>
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <h3>{{$book->title}}</h3>
-                        <h4>{{$book->price}}</h4>
-                    </div>
-                </div>
+                </li>
             @endforeach
+        </ul>
 
-        </section>
+        {{--<section class="products">--}}
+
+        {{--@foreach($books as $book)--}}
+        {{--<div class="product-card">--}}
+        {{--<div class="product-image">--}}
+        {{--<img src="{!! $book->image !!}" alt="{{$book->title}}">--}}
+        {{--</div>--}}
+        {{--<div class="product-info">--}}
+        {{--<h3>{{$book->title}}</h3>--}}
+        {{--<h4>{{$book->price}}</h4>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--@endforeach--}}
+
+        {{--</section>--}}
     </div>
 
 @endsection

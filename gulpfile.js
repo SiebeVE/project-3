@@ -13,5 +13,11 @@ const elixir = require('laravel-elixir');
 
 elixir(mix => {
     mix.sass('app.scss')
-       .webpack('app.js');
+        .webpack('app.js');
+
+    mix.copy('node_modules/font-awesome/css/font-awesome.min.css','resources/assets/css/libs')
+        .copy('node_modules/font-awesome/fonts/','public/fonts')
+        .styles([
+            "libs/font-awesome.min.css",
+        ], 'public/css/libs.css');
 });
