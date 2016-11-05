@@ -185,51 +185,100 @@ class BookController extends Controller
 		return $bookResult;
 	}
 
-	public function getBuy (BookUser $bookUser) {
-		if ($bookUser->type != "buy" || $bookUser->status != 0) {
-			abort(400, "This book is not for sale.");
+	public function getBuyOrBorrow ($type, BookUser $bookUser) {
+		if ($type == "buy" || $type == "borrow") {
+			$typeArray = explode(',', $bookUser->type);
+
+			if ( ! in_array($type, $typeArray) || $bookUser->status != 0) {
+				abort(400, "You cannot " . $type . " this book.");
+			}
+			else if ($bookUser->user->id == Auth::user()->id) {
+				abort(400, "You cannot " . $type . " your own book.");
+			}
+
+			$toUser = Auth::user();
+			$fromUser = $bookUser->user;
+
+			$transaction = BookTransaction::create([
+				"book_id" => $bookUser->id,
+				"from_id" => $fromUser->id,
+				"to_id"   => $toUser->id,
+				"type"    => $type,
+			]);
+
+			switch ($type) {
+				case "buy":
+					$bookUser->status = 1;
+					break;
+				case "borrow":
+					$bookUser->status = 3;
+					break;
+			}
+			$bookUser->save();
 		}
-		elseif ($bookUser->user->id == Auth::user()->id) {
-			abort(400, "You cannot buy your own book.");
+		else {
+			abort(401, "That action is not allowed.");
 		}
-
-		$toUser = Auth::user();
-		$fromUser = $bookUser->user;
-
-		$transaction = BookTransaction::create([
-			"book_id" => $bookUser->id,
-			"from_id" => $fromUser->id,
-			"to_id"   => $toUser->id
-		]);
-
-		$bookUser->status = 1;
-		$bookUser->save();
 
 		return $bookUser;
 	}
 
-	public function getBuyConfirmRecieved (BookUser $bookUser) {
-		// Only allow the user
-		$toUser = Auth::user();
+	public function getConfirmRecieved ($type, BookTransaction $transaction) {
+		if ($type == "borrow" || $type == "buy") {
+			// Only allow the user
+			$toUser = Auth::user();
 
-		$transaction = BookTransaction::where('to_id', $toUser->id)->firstOrFail();
-		$book = $transaction->book;
-		if ($book->status != 1) {
-			abort(401, "The book is no longer traveling.");
+			if ($toUser->id != $transaction->to_id) {
+				abort(403, "This user is not allowed to finish this transaction.");
+			}
+
+			$book = $transaction->book;
+			if (!($book->status == 1 || $book->status == 3)) {
+				abort(401, "The book is no longer traveling.");
+			}
+
+			switch ($type) {
+				case "buy":
+					$newBook = $book->replicate();
+					$newBook->push();
+
+					$newBook->status = 0;
+					$newBook->user_id = $toUser->id;
+					$newBook->price = 0;
+					$newBook->type = "borrow";
+					$newBook->save();
+
+					$book->status = 2;
+					break;
+				case "borrow":
+					$book->status = 4;
+					break;
+			}
+			$book->save();
 		}
-		$newBook = $book->replicate();
-		$newBook->push();
+		else {
+			abort(401, "That action is not allowed.");
+		}
 
-		$book->status = 2;
-		$book->save();
+		return "done";
+	}
 
-		$newBook->status = 0;
-		$newBook->user_id = $toUser->id;
-		$newBook->price = 0;
-		$newBook->type = "borrow";
-		$newBook->save();
+	public function getConfirmGiveBack (BookTransaction $transaction) {
+		// Only user of the book can confirm it
+		if(Auth::user()->id != $transaction->from_id)
+		{
+			abort(403, "This user isn't allowed to do this action.");
+		}
 
-		return $newBook;
+		if($transaction->book->status != 4)
+		{
+			abort(401, "This book is not with the other party.");
+		}
+
+		$transaction->book->status = 0;
+		$transaction->book->save();
+
+		return "done";
 	}
 
 	/**

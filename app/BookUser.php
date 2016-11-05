@@ -10,6 +10,8 @@ class BookUser extends Model
 	// 0: Book is available to everyone
 	// 1: Book is sold but not yet in possession of other party
 	// 2: Book is sold to other user
+	// 3: Book is borrowed but not yet in possession of other party
+	// 4: Book is borrowed and the other party has the book
 
 	protected $guarded = [];
 
