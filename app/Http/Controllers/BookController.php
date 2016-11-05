@@ -70,4 +70,16 @@ class BookController extends Controller
 
 		return $bookResult;
 	}
+
+    /**
+     * Displays detailed information about a book
+     *
+     * @param Book $book
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function view(Book $book) {
+	    $book = $book->with('owners')->get();
+        return view('book.view', compact('book'));
+    }
 }

@@ -35,6 +35,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    // Filler for renamed function
     public function book() {
         return $this->books();
     }

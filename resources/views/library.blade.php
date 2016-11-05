@@ -34,10 +34,10 @@
 
 
         <!-- card list -->
-        <ul class="flex-card-list">
+        <div class="flex-card-list">
         @foreach($books as $book)
             <!-- card list item -->
-                <li class="flex-card-listitem">
+                <a href="{{route('book.view', $book->id)}}" class="flex-card-listitem">
                     <!-- card module -->
                     <div class="flex-card">
                         <!-- image container -->
@@ -57,9 +57,9 @@
                             </span>
                         </div>
                     </div>
-                </li>
+                </a>
             @endforeach
-        </ul>
+        </div>
 
         {{--<section class="products">--}}
 

@@ -265,6 +265,11 @@ label {
 
 .flex-card-listitem {
   display: flex;
+  text-decoration: none;
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .flex-card {
@@ -292,7 +297,7 @@ label {
   .flex-card-list {
     margin-left: -1em; // compensate for the left padding on li
 
-    li {
+    .flex-card-listitem {
       width: 50%;
       padding-left: 1em;
       float: left;
@@ -303,7 +308,7 @@ label {
 @media all and (min-width: 770px) {
 
   /* common to flex and non-flex */
-  .flex-card-list li {
+  .flex-card-list .flex-card-listitem {
     width: 25%;
   }
 

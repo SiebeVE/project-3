@@ -5962,7 +5962,11 @@ label {
 
 .flex-card-listitem {
   display: -webkit-box;
-  display: flex; }
+  display: flex;
+  text-decoration: none;
+  color: inherit; }
+  .flex-card-listitem:hover {
+    text-decoration: none; }
 
 .flex-card {
   width: 100%;
@@ -5985,14 +5989,14 @@ label {
 @media all and (min-width: 480px) {
   .flex-card-list {
     margin-left: -1em; }
-    .flex-card-list li {
+    .flex-card-list .flex-card-listitem {
       width: 50%;
       padding-left: 1em;
       float: left; } }
 
 @media all and (min-width: 770px) {
   /* common to flex and non-flex */
-  .flex-card-list li {
+  .flex-card-list .flex-card-listitem {
     width: 25%; }
   /* Float specific: Clear after every fourth item */
   .flex-card-list li:nth-child(4n+1) {
