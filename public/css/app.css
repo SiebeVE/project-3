@@ -5833,11 +5833,11 @@ a {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a6000000', endColorstr='#00000000', GradientType=0);
   /* IE6-9 */ }
 
-.header__logo {
+.header__left {
   font-weight: 700;
   padding: 0 25px;
   float: left; }
-  .header__logo:hover, .header__logo:focus, .header__logo:active {
+  .header__left:hover, .header__left:focus, .header__left:active {
     color: #fff;
     text-decoration: none; }
 
@@ -5852,11 +5852,11 @@ a {
 
 /* RESPONSIVE */
 @media only screen and (max-width: 768px) {
-  .header__logo {
+  .header__left {
     font-weight: 700;
     padding: 0 12px;
     float: left; }
-    .header__logo:hover, .header__logo:focus, .header__logo:active {
+    .header__left:hover, .header__left:focus, .header__left:active {
       color: #fff;
       text-decoration: none; }
   .site-pusher,

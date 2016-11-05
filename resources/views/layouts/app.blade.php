@@ -30,16 +30,16 @@
 
             <header class="header transparant">
 
-            <a href="#" class="header__icon" id="header__icon"></a>
+                <a href="#" class="header__icon" id="header__icon"></a>
 
-            @if(Request::is('/'))
-                    <a href="#" class="header__logo">Booksharing</a>
-                @else
-                    <a href="/" class="header__logo">
-                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                        Back
-                    </a>
-                @endif
+                <div class="header__left">
+                    @yield('header_left')
+                </div>
+
+                <div class="pull-right">
+                    @yield('header_right')
+                </div>
+
 
                 <nav class="menu pull-right">
                     <!-- Authentication Links -->
