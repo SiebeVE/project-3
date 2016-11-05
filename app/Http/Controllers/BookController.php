@@ -36,6 +36,12 @@ class BookController extends Controller {
 		dd( $request );
 	}
 
+	public function getFind() {
+		$books = Book::groupBy("isbn")->get(array("isbn", "books.*"));
+		dd($books);
+		return view( 'book.find' );
+	}
+
 	private function getBookDetails( $bookId ) {
 		$client     = new \GuzzleHttp\Client();
 		$res        = $client->request( 'GET', env( "API_URL_BOOK" ) . "/" . $bookId, [
