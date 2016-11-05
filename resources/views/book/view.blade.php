@@ -19,12 +19,22 @@
                         <img src="{{$book->image}}" class="bookcover" alt="{{$book->title}}">
                     </div>
                     <div class="col-xs-6">
-                        <div class="information">
-                            <ul class="list-unstyled">
-                                <li><i class="fa fa-book" aria-hidden="true"></i> {{$book->pageCount}} pages</li>
-                                <li><i class="fa fa-barcode" aria-hidden="true"></i>ISBN: {{$book->isbn}}</li>
-                                <li><i class="fa fa-globe" aria-hidden="true"></i> {{$book->fullLanguage}}</li>
-                            </ul>
+                        <div class="col-md-12 information">
+                            <div class="row">
+                                <div class="col-xs-1"><i class="fa fa-barcode" aria-hidden="true"></i></div>
+                                <div class="col-xs-9">
+                                    ISBN: <br>
+                                    <small>{{$book->isbn}}</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-1"><i class="fa fa-book" aria-hidden="true"></i></div>
+                                <div class="col-xs-9">{{$book->pageCount}} pages</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-1"><i class="fa fa-globe" aria-hidden="true"></i> </div>
+                                <div class="col-xs-9">{{$book->fullLanguage}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>

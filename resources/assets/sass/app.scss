@@ -37,26 +37,31 @@ a {
 }
 
 .panel.panel-book {
-  h1,h2 {
+  h1, h2 {
     margin-top: 0;
   }
   h1 {
-    font-size:28px;
+    font-size: 28px;
   }
   h2 {
-    font-size:20px;
+    font-size: 20px;
   }
   .information {
-    background-color: $brandColor;
-    color: #fff;
-    padding-left: 15px;
-    li {
-      font-size:1.2em;
-      margin: 15px 0;
+    background-color: #e1e1e1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    // Smaller gutter on mobile (default is 30px...)
+    margin-left: -15px;
+
+    .col-xs-1 {
+      text-align: center;
+    }
+    & > .row > div {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
-      .glyphicon {
+      .fa {
         margin-right: 10px;
       }
     }
@@ -65,9 +70,6 @@ a {
     width: 100%;
   }
 }
-
-
-
 
 /**
   * Site structure;
