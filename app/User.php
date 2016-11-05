@@ -35,7 +35,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-	public function book()
+    public function book() {
+        return $this->books();
+    }
+
+	public function books()
 	{
 		return $this->belongsToMany(Book::class)->withPivot(["type", "condition", "status"]);
 	}
