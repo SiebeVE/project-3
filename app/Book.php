@@ -12,6 +12,6 @@ class Book extends Model
 
     public function owner()
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->belongsToMany(User::class);
     }
 }

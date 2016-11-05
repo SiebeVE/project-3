@@ -23,7 +23,7 @@ class ChangeDatabaseForeignThatBooks extends Migration
 			$table->integer('user_id')->unsigned();
 			$table->string("type");
 			$table->text('condition');
-			$table->integer('status');
+			$table->integer('status')->default(0);
 
 			$table->foreign('book_id')
 			      ->references('id')
@@ -58,7 +58,7 @@ class ChangeDatabaseForeignThatBooks extends Migration
 			$table->string("type")->after("language");
 			$table->text('condition')->after('author');
 			$table->integer('status')->default(0)->after("type");
-			$table->integer('owner_id')->unsigned()->after("status");
+			$table->integer('owner_id')->nullable()->unsigned()->after("status");
 			$table->foreign('owner_id')->references('id')->on('users');
 		});
 	}
