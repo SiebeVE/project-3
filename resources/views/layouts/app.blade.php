@@ -30,7 +30,9 @@
 
             <header class="header transparant">
 
-                @if(Request::is('/'))
+            <a href="#" class="header__icon" id="header__icon"></a>
+
+            @if(Request::is('/'))
                     <a href="#" class="header__logo">Booksharing</a>
                 @else
                     <a href="/" class="header__logo">
