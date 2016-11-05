@@ -18,23 +18,20 @@
                     <div class="col-sm-4">
                         <img src="{{$book->image}}" class="bookcover" alt="{{$book->title}}">
                         <div class="information">
-                            <table class="table table-condensed">
-                                <tr>
-                                    <td><i class="fa fa-barcode" aria-hidden="true"></i></td>
-                                    <td>
-                                        ISBN: <br>
-                                        <small>{{$book->isbn}}</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-book" aria-hidden="true"></i></td>
-                                    <td>{{$book->pageCount}} pages</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-globe" aria-hidden="true"></i></td>
-                                    <td>{{$book->fullLanguage}}</td>
-                                </tr>
-                            </table>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-barcode" aria-hidden="true"></i>
+                                    ISBN: <small>{{$book->isbn}}</small>
+                                </li>
+                                <li>
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    {{$book->pageCount}} pages
+                                </li>
+                                <li>
+                                    <i class="fa fa-globe" aria-hidden="true"></i>
+                                    {{$book->fullLanguage}}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-sm-8">
@@ -49,9 +46,11 @@
                             </table>
                         </div>
 
-                        <p class="description">
-                            {!!$book->description!!}
-                        </p>
+                        <div class="description">
+                            <p>
+                                {!!$book->description!!}
+                            </p>
+                        </div>
                     </div>
                 </div>
 

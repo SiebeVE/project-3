@@ -5795,12 +5795,18 @@ a {
 
 .panel.panel-book .information {
   background-color: #e1e1e1;
-  padding: 5px;
-  margin: 15px;
+  padding: 15px;
+  margin: 15px 0;
   border-radius: 5px; }
-
-.panel.panel-book .table {
-  margin-bottom: 0; }
+  .panel.panel-book .information ul {
+    margin: 0; }
+    .panel.panel-book .information ul li {
+      font-size: 1.2em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden; }
+      .panel.panel-book .information ul li .fa {
+        margin-right: 10px; }
 
 .panel.panel-book img.bookcover {
   width: 100%; }

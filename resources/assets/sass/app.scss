@@ -51,12 +51,21 @@ a {
   }
   .information {
     background-color: #e1e1e1;
-    padding: 5px;
-    margin: 15px;
+    padding: 15px;
+    margin: 15px 0;
     border-radius: 5px;
-  }
-  .table {
-    margin-bottom: 0;
+    ul {
+      margin: 0;
+      li {
+        font-size: 1.2em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        .fa {
+          margin-right:10px;
+        }
+      }
+    }
   }
   img.bookcover {
     width: 100%;
