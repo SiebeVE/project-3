@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('header_left')
+	<a href="/book/add">
+		<i class="fa fa-chevron-left" aria-hidden="true"></i>
+		Add Book
+	</a>
+@endsection
+
 @section('content')
 	<div class="container">
 		<div class="row">
