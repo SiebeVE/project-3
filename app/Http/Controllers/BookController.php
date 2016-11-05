@@ -79,7 +79,7 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
 	public function view(Book $book) {
-	    $book = $book->with('owners')->get();
+	    $book = $book->with('owners')->findOrFail($book->id);
         return view('book.view', compact('book'));
     }
 }

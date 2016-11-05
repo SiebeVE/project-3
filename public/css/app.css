@@ -5781,6 +5781,35 @@ a {
   text-decoration: none;
   color: inherit; }
 
+.panel.panel-book h1, .panel.panel-book h2 {
+  margin-top: 0; }
+
+.panel.panel-book h1 {
+  font-size: 28px; }
+
+.panel.panel-book h2 {
+  font-size: 20px; }
+
+.panel.panel-book .information {
+  background-color: #d56a18;
+  color: #fff;
+  padding-left: 15px; }
+  .panel.panel-book .information li {
+    font-size: 1.2em;
+    margin: 15px 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; }
+    .panel.panel-book .information li .glyphicon {
+      margin-right: 10px; }
+
+.panel.panel-book img.bookcover {
+  width: 100%; }
+
+/**
+  * Site structure;
+  * Side menu
+  */
 .site-pusher,
 .site-container,
 .site-content {
