@@ -24,4 +24,12 @@ class BookUser extends Model
 	public function user () {
 		return $this->belongsTo(User::class);
 	}
+
+	public function setPriceAttribute($value) {
+	    $this->attributes['price'] = $value ?: 0;
+    }
+
+    public function getPriceAttribute($value) {
+        return $value ?: 0;
+    }
 }

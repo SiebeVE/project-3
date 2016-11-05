@@ -16,6 +16,10 @@ class Book extends Model
         return $iso->languageByCode1($this->attributes['language']);
     }
 
+    public function getImageAttribute($value) {
+        return $value ?: '/imgs/nocover1.png';
+    }
+
     // Temp filler for renamed method
     public function owner()
     {
@@ -23,6 +27,6 @@ class Book extends Model
     }
 
     public function owners() {
-        return $this->belongsToMany(User::class)->withPivot(["type", "condition", "status"]);
+        return $this->belongsToMany(User::class)->withPivot(["type", "condition", "status", "price"]);
     }
 }
