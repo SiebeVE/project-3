@@ -95,7 +95,7 @@ a {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a6000000', endColorstr='#00000000', GradientType=0); /* IE6-9 */
 }
 
-.header__logo {
+.header__left {
   font-weight: 700;
   padding: 0 25px;
   float: left;
@@ -122,7 +122,7 @@ a {
 
 /* RESPONSIVE */
 @media only screen and (max-width: 768px) {
-  .header__logo {
+  .header__left {
     font-weight: 700;
     padding: 0 12px;
     float: left;
@@ -265,6 +265,11 @@ label {
 
 .flex-card-listitem {
   display: flex;
+  text-decoration: none;
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .flex-card {
@@ -292,7 +297,7 @@ label {
   .flex-card-list {
     margin-left: -1em; // compensate for the left padding on li
 
-    li {
+    .flex-card-listitem {
       width: 50%;
       padding-left: 1em;
       float: left;
@@ -303,7 +308,7 @@ label {
 @media all and (min-width: 770px) {
 
   /* common to flex and non-flex */
-  .flex-card-list li {
+  .flex-card-list .flex-card-listitem {
     width: 25%;
   }
 
