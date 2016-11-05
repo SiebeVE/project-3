@@ -242,7 +242,7 @@
 						},
 						success: function ( result ) {
 							console.log(result);
-							window.location = "{{ env("APP_URL") }}book/add/"+result.items[0].id;
+							window.location = "{{ route('book.add') }}/"+result.items[0].id;
 						},
 						dataType: "json"
 					});
