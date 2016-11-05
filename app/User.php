@@ -37,6 +37,6 @@ class User extends Authenticatable
 
 	public function book()
 	{
-		return $this->hasMany(BookUser);
+		return $this->belongsToMany(Book::class)->withPivot(["type", "condition", "status"]);
 	}
 }
