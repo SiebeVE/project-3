@@ -38,7 +38,7 @@ class BookController extends Controller
 				'image'       => $request->book_image,
 				'description' => $request->book_description,
 				'author'      => $request->book_authors,
-				'pageCount'   => $request->book_pageCount,
+				'pageCount'   => $request->book_pageCount ? $request->book_pageCount : NULL,
 				'language'    => $request->book_language,
 			]);
 		}
@@ -56,9 +56,9 @@ class BookController extends Controller
 
 	public function getFind () {
 		$books = Book::get();
-		dd($books);
+		//dd($books);
 
-		return view('book.find');
+		return view('book.find', compact('books'));
 	}
 
 	private function getBookDetails ($bookId) {
