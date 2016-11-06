@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/notifications', 'HomeController@getNotifications');
 
 // User books routes
-Route::get('/book/add/new', 'BookController@getAddNew');
+Route::get('/book/add/new', 'BookController@getAddNew')->name('book.add.new');
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
 Route::get('/book/edit', 'BookController@edit')->name('book.edit');
 Route::get('/book/remove', 'BookController@remove')->name('book.remove');

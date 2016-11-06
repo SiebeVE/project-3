@@ -45,6 +45,7 @@
 								<button type="button" class="btn btn-primary search">Search</button>
 							</div>
 						</form>
+						<small>Can't find your book? No problem, <a style="text-decoration: underline;" href="{{route('book.add.new')}}">manually add your book.</a></small>
 					</div>
 				</div>
 				
