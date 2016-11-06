@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/notifications', 'HomeController@getNotifications');
 
 // User books routes
+Route::get('/book/add/new', 'BookController@getAddNew');
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
 Route::get('/book/edit', 'BookController@edit')->name('book.edit');
 Route::get('/book/remove', 'BookController@remove')->name('book.remove');
@@ -27,7 +28,6 @@ Route::get('/my-books', 'BookController@index')->name('book.index');
 Route::get('/book/add/{bookId}', 'BookController@getAddDetail');
 Route::post('/book/add/{bookId}', 'BookController@postAddDetail');
 Route::get('/book/add/finish', 'BookController@getAddFinish');
-Route::get('/book/add/new', 'BookController@getAddNew');
 
 Route::get('/book/transaction/{transaction}', 'BookController@getTransaction')->name('book.transaction');
 
