@@ -11,6 +11,8 @@
 
     <div class="container">
 
+        @include('partials.status')
+
         @include('partials.errors')
 
         <div class="panel panel-default">
@@ -27,20 +29,26 @@
                     {{ csrf_field() }}
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <!-- Name input -->
+                        <div class="col-sm-6">
+                            <!-- firstname input -->
                             <div class="form-group">
-                                <label class="control-label" for="name">Full name</label>
-                                <input id="name" name="name" type="text" required autofocus value="{{ old('name', $user->name) }}" class="form-control">
+                                <label class="control-label" for="firstname">First name</label>
+                                <input id="firstname" name="firstname" type="text" required autofocus value="{{ old('firstname', $user->firstname) }}" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <!-- Email input -->
+                        <div class="col-sm-6">
+                            <!-- lastName input -->
                             <div class="form-group">
-                                <label class="control-label" for="name">Email</label>
-                                <input id="email" name="email" type="email" required value="{{ old('email', $user->email) }}" placeholder="random&commat;stuff.com" class="form-control">
+                                <label class="control-label" for="lastname">Last name</label>
+                                <input id="lastname" name="lastname" type="text" required autofocus value="{{ old('lastname', $user->lastname) }}" class="form-control">
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-group">
+                        <label class="control-label" for="name">Email</label>
+                        <input id="email" name="email" type="email" required value="{{ old('email', $user->email) }}" placeholder="random&commat;stuff.com" class="form-control">
                     </div>
 
                     <div class="row">

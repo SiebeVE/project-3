@@ -38,5 +38,6 @@ Route::get('/book/borrow/confirm/giveBack/{transaction}', 'BookController@getCon
 Route::get('/book/find', 'BookController@getFind')->name('book.find');
 Route::get('/book/{book}', 'BookController@view')->name('book.view');
 
+Route::get('user/profile', 'UserController@view')->name('user.view');
 Route::get('user/edit', 'UserController@edit')->name('user.edit');
 Route::put('user/edit', 'UserController@update')->name('user.update');

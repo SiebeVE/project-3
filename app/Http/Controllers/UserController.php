@@ -8,8 +8,9 @@ use App\Http\Requests;
 
 class UserController extends Controller
 {
-    public function profile() {
-        return view('user.profile');
+    public function view() {
+        $user = Auth::user();
+        return view('user.view', compact('user'));
     }
 
     public function edit() {
@@ -39,6 +40,6 @@ class UserController extends Controller
                 'country'
             )
         )->save();
-        return redirect('user.profile')->with('status', 'Your information has been saved!');
+        return redirect()->route('user.view')->with('status', 'Your information has been saved!');
     }
 }
