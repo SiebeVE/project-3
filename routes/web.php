@@ -22,6 +22,8 @@ Route::get('library', 'LibraryController@index')->name('library');
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/notifications', 'HomeController@getNotifications');
+
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
 
 Route::get('/book/add/finish', 'BookController@getAddFinish');
@@ -29,6 +31,8 @@ Route::get('/book/add/new', 'BookController@getAddNew');
 
 Route::get('/book/add/{bookId}', 'BookController@getAddDetail');
 Route::post('/book/add/{bookId}', 'BookController@postAddDetail');
+
+Route::get('/book/transaction/{transaction}', 'BookController@getTransaction')->name('book.transaction');
 
 Route::get('/book/{type}/{bookUser}', 'BookController@getBuyOrBorrow')->name('book.buyorborrow');
 Route::get('/book/{type}/confirm/{transaction}', 'BookController@getConfirmRecieved');

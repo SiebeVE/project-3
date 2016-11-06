@@ -169,12 +169,21 @@
 							key: api_key_book
 						},
 						success: function ( result ) {
+							console.log(result);
+							
 							var books = result.items;
 							var $listOfResults = $("#search-results");
 							$listOfResults.empty();
 							for (var book in books) {
 								var $bookAuthor = $('<h3/>').html(books[ book ].volumeInfo.title);
-								var $bookTitle = $('<h4/>').html(formatArray(books[ book ].volumeInfo.authors));
+								var $bookTitle;
+								if(books[book].volumeInfo.hasOwnProperty('authors'))
+								{
+									$bookTitle = $('<h4/>').html(formatArray(books[ book ].volumeInfo.authors));
+								}
+								else {
+									$bookTitle = $('<h4/>').html("");
+								}
 								var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookAuthor).append($bookTitle);
 								var $image = $("<img>");
 								if (books[ book ].volumeInfo.hasOwnProperty("imageLinks")) {
@@ -199,8 +208,6 @@
 							var $flexCardNew = $("<div/>").addClass('flex-card').append($flexCardImageNew).append($flexCardContentNew);
 							var $newBookNew = $("<a/>").addClass('flex-card-listitem').attr("href", "/book/add/new").append($flexCardNew);
 							$listOfResults.append($newBookNew);
-							
-							console.log(result);
 						},
 						dataType: "json"
 					});
