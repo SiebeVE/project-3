@@ -21,7 +21,7 @@
     </style>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-2" id="change-column" style="transition: all 0.3s ease;">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
@@ -171,6 +171,9 @@
                                 var $listOfResults = $("#search-results");
                                 $listOfResults.empty();
                                 for (var book in books) {
+                                    var $bookTitle = $('<h3/>').html(books[book].volumeInfo.authors.join(', '));
+                                    var $bookAuthor = $('<h4/>').html(books[book].volumeInfo.title);
+                                    var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookTitle).append($bookAuthor);
                                     var $image = $("<img>");
                                     if (books[book].volumeInfo.hasOwnProperty("imageLinks")) {
                                         $image.attr("src", books[book].volumeInfo.imageLinks.smallThumbnail);
@@ -179,7 +182,7 @@
                                         $image.attr("src", "/imgs/nocover1.png");
                                     }
                                     var $flexCardImage = $("<div/>").addClass('flex-card-image').append($image);
-                                    var $flexCard = $("<div/>").addClass('flex-card').append($flexCardImage);
+                                    var $flexCard = $("<div/>").addClass('flex-card').append($flexCardImage).append($flexCardContent);
                                     var $newBook = $("<a/>").addClass('flex-card-listitem').attr("href", "/book/add/" + books [book].id).append($flexCard);
 
                                     $listOfResults.append($newBook);
@@ -200,10 +203,19 @@
         $("#search").typeWatch(options);
 
         $("#search").focusin(function () {
-            $('#interactive').slideUp();
+            $('#interactive').slideUp(function() {
+                $('#change-column').removeClass();
+            });
+
+
         });
         $("#search").focusout(function () {
-            if (this.value.length == 0) $('#interactive').slideDown();
+            if (this.value.length == 0) {
+                $('#change-column').addClass('col-md-8 col-md-offset-2');
+                setTimeout(function() {
+                    $('#interactive').slideDown();
+                },300);
+            }
         });
 
         $(function () {
