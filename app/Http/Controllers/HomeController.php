@@ -21,7 +21,6 @@ class HomeController extends Controller
     {
         $this->bookService = $bookService;
         $this->books = $books;
-        $this->middleware('auth');
     }
 
     /**
