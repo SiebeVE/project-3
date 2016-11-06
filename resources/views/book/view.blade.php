@@ -61,6 +61,9 @@
                                             <td>
                                                 {{ $owner->pivot->price == 0 ? 'FREE' : '&euro;'.$owner->pivot->price }}
                                             </td>
+                                            <td>
+                                                <a href="{{route()}}" class="btn btn-sm btn-primay">buy/borrow</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </table>

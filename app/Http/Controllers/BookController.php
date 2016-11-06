@@ -79,7 +79,6 @@ class BookController extends Controller
         return view('book.find', compact('availableBooks'));
 	}
 
-
 	private function getBookDetails ($bookId) {
 		$client = new \GuzzleHttp\Client();
 		$res = $client->request('GET', env("API_URL_BOOK") . "/" . $bookId, [

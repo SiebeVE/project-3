@@ -43,11 +43,12 @@
                                 <button type="button" class="btn btn-primary search">Search</button>
                             </div>
                         </form>
-                        <div class="results-search">
-                            <!-- card list -->
-                            <div class="flex-card-list" id="search-results">
-                            </div>
-                        </div>
+                    </div>
+                </div>
+
+                <div class="results-search">
+                    <!-- card list -->
+                    <div class="flex-card-list" id="search-results">
                     </div>
                 </div>
             </div>
