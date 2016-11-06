@@ -56,19 +56,30 @@
                             </div>
                             <div class="collapse" id="owners">
                                 <table class="table">
-                                    @foreach($book->ownersWithStatus0 as $owner)
+                                    <thead>
                                         <tr>
-                                            <td>{{$owner->pivot->condition}}</td>
-                                            <td>
-                                                {{$owner->pivot->type}}
-                                            </td>
-                                            <td>
-                                                @foreach(explode(',',$owner->pivot->type) as $type)
-                                                    <a href="{{route('book.buyorborrow', ["type"=>$type, "bookUser"=>$owner->pivot->id])}}" class="btn btn-sm btn-primary">{{$type}} for {{$owner->pivot->price}}</a>
-                                                @endforeach
-                                            </td>
+                                            <th>From</th>
+                                            <th>Distance</th>
+                                            <th>Condition</th>
                                         </tr>
-                                    @endforeach
+                                    </thead>
+                                    <tbody>
+                                        @foreach($book->ownersWithStatus0 as $owner)
+                                            <tr>
+                                                <td>{{$owner->firstname}}</td>
+                                                <td><i class="fa fa-bicycle"></i> 4 minutes away</td>
+                                                <td>{{$owner->pivot->condition}}</td>
+                                                <td>
+                                                    @foreach(explode(',',$owner->pivot->type) as $type)
+                                                        <a href="{{route('book.buyorborrow', ["type"=>$type, "bookUser"=>$owner->pivot->id])}}" class="btn btn-sm btn-primary">
+                                                            {{$type == 'free' ? 'pick-up for free' : $type}}
+                                                            {{ $type == 'buy' ? 'for '. $owner->pivot->price : ''}}
+                                                        </a>
+                                                    @endforeach
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

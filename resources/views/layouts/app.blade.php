@@ -39,14 +39,12 @@
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
                     @else
-                        <a href="{{ url('/logout') }}" onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
+                        <a href="{{route('library')}}">Library</a>
+                        <a href="{{route('user.view')}}">My profile</a>
+                        <a href="{{route('book.index')}}">My books</a>
+                        <a href="{{ url('/logout') }}" data-method="post" data-csrf="{{csrf_token()}}">
                             Logout
                         </a>
-
-                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                            {{ csrf_field() }}
-                        </form>
                     @endif
                 </nav>
 

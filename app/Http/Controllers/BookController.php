@@ -25,6 +25,13 @@ class BookController extends Controller
 		$this->bookService = $bookService;
 	}
 
+
+	// Shows the user's books
+	public function index() {
+	    $books = Auth::user()->books;
+	    return view('book.index', compact('books'));
+    }
+
 	public function getAdd () {
 		return view('book.add');
 	}
@@ -136,6 +143,8 @@ class BookController extends Controller
 	}
 
 	public function getBuyOrBorrow ($type, BookUser $bookUser) {
+	    if($type == 'free') $type = 'buy';
+
 		if ($type == "buy" || $type == "borrow") {
 			$typeArray = explode(',', $bookUser->type);
 
@@ -242,8 +251,10 @@ class BookController extends Controller
 	 */
 	public function view (Book $book) {
 
-		$book = $book->with('ownersWithStatus0')->findOrFail($book->id);
-		debug($book);
+		$book = $book->with(['ownersWithStatus0' => function($q) {
+		    $q->where('users.id', '<>', Auth::user()->id);
+        }])->findOrFail($book->id);
+        debug($book);
 
 		return view('book.view', compact('book'));
 	}

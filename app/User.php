@@ -36,6 +36,16 @@ class User extends Authenticatable
 		'remember_token',
 	];
 
+    // Check if the users information is complete or not
+    public function isComplete() {
+        if(empty($this->attributes['name']) || empty($this->attributes['street'])) return false;
+        return true;
+    }
+
+    public function getFullNameAttribute() {
+        return $this->attributes['firstname'] . " " . $this->attributes['lastname'];
+    }
+
 
 	// Filler for renamed function
 	public function book () {
@@ -43,7 +53,7 @@ class User extends Authenticatable
 	}
 
 	public function books () {
-		return $this->belongsToMany(Book::class)->withPivot(["type", "condition", "status"]);
+		return $this->belongsToMany(Book::class)->withPivot(["type", "condition", "status", "id", "price"]);
 	}
 
 	public function getAddress () {
