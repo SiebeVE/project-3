@@ -389,6 +389,10 @@ img.bookcover {
 }
 
 .flex-card {
+  display: flex;
+  justify-content:space-between;
+  flex-direction: column;
+
   width: 100%;
   background-color: #fff;
   box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4);

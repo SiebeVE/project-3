@@ -6046,6 +6046,13 @@ img.bookcover {
     text-decoration: none; }
 
 .flex-card {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
   width: 100%;
   background-color: #fff;
   box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4);
