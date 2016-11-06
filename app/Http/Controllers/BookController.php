@@ -6,6 +6,8 @@ use App\Book;
 use App\BookTransaction;
 use App\BookUser;
 use App\ISO639;
+use App\Notifications\BookGiveBack;
+use App\Notifications\BookGiveBackSend;
 use App\Notifications\BookReceived;
 use App\Notifications\BookReceivedSend;
 use App\Notifications\BorrowRequest;
@@ -193,7 +195,9 @@ class BookController extends Controller
 
 	public function getConfirmGiveBack (BookTransaction $transaction) {
 		// Only user of the book can confirm it
-		if (Auth::user()->id != $transaction->from_id) {
+
+		$fromUser = Auth::user();
+		if ($fromUser->id != $transaction->from_id) {
 			abort(403, "This user isn't allowed to do this action.");
 		}
 
@@ -201,8 +205,13 @@ class BookController extends Controller
 			abort(401, "This book is not with the other party.");
 		}
 
+		$toUser = $transaction->to;
+
 		$transaction->book->status = 0;
 		$transaction->book->save();
+
+		$fromUser->notify(new BookGiveBack($toUser, $transaction->book));
+		$toUser->notify(new BookGiveBackSend($fromUser, $transaction->book));
 
 		return "done";
 	}
