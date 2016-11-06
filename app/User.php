@@ -42,6 +42,10 @@ class User extends Authenticatable
         return true;
     }
 
+    public function getFullNameAttribute() {
+        return $this->attributes['firstname'] . " " . $this->attributes['lastname'];
+    }
+
 
 	// Filler for renamed function
 	public function book () {

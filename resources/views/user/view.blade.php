@@ -15,7 +15,17 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <h1>{{$user->firstname}}</h1>
+                        <div class="button-group pull-right">
+                            <a href="{{route('user.edit')}}" class="btn btn-lg btn-primary">Edit information</a>
+                        </div>
+
+                        <h1>{{$user->fullName}}</h1>
+
+                        <p class="lead">
+                            {{$user->street}} {{$user->number}}<br>
+                            {{$user->postal}} {{$user->city}}<br>
+                            {{$user->country}}
+                        </p>
                     </div>
                 </div>
             </div>
