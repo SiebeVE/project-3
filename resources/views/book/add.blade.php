@@ -45,11 +45,12 @@
 								<button type="button" class="btn btn-primary search">Search</button>
 							</div>
 						</form>
-						<div class="results-search">
-							<!-- card list -->
-							<div class="flex-card-list" id="search-results">
-							</div>
-						</div>
+					</div>
+				</div>
+				
+				<div class="results-search">
+					<!-- card list -->
+					<div class="flex-card-list" id="search-results">
 					</div>
 				</div>
 			</div>
@@ -172,9 +173,9 @@
 							var $listOfResults = $("#search-results");
 							$listOfResults.empty();
 							for (var book in books) {
-								var $bookTitle = $('<h3/>').html(books[ book ].volumeInfo.authors.join(', '));
-								var $bookAuthor = $('<h4/>').html(books[ book ].volumeInfo.title);
-								var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookTitle).append($bookAuthor);
+								var $bookAuthor = $('<h3/>').html(books[ book ].volumeInfo.title);
+								var $bookTitle = $('<h4/>').html(formatArray(books[ book ].volumeInfo.authors));
+								var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookAuthor).append($bookTitle);
 								var $image = $("<img>");
 								if (books[ book ].volumeInfo.hasOwnProperty("imageLinks")) {
 									$image.attr("src", books[ book ].volumeInfo.imageLinks.smallThumbnail);
@@ -189,10 +190,16 @@
 								$listOfResults.append($newBook);
 							}
 							
-							var $bookTitle = $('<h3/>').html(books[ book ].volumeInfo.authors.join(', '));
-							var $bookAuthor = $('<h4/>').html(books[ book ].volumeInfo.title);
-							var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookTitle).append($bookAuthor);
-							var $image = $("<img>");
+							var $bookAuthorNew = $('<h3/>').html("Book not found?");
+							var $bookTitleNew = $('<h4/>').html("Add a new one!");
+							var $flexCardContentNew = $('<div/>').addClass('flex-card-content').append($bookAuthorNew).append($bookTitleNew);
+							var $imageNew = $("<img>");
+							$imageNew.attr("src", "/imgs/addcover1.png");
+							var $flexCardImageNew = $("<div/>").addClass('flex-card-image').append($imageNew);
+							var $flexCardNew = $("<div/>").addClass('flex-card').append($flexCardImageNew).append($flexCardContentNew);
+							var $newBookNew = $("<a/>").addClass('flex-card-listitem').attr("href", "/book/add/new").append($flexCardNew);
+							$listOfResults.append($newBookNew);
+							
 							console.log(result);
 						},
 						dataType: "json"
@@ -287,5 +294,23 @@
 				}
 			});
 		});
+		
+		function formatArray( arr ) {
+			var outStr = "";
+			if (arr.length === 1) {
+				outStr = arr[ 0 ];
+			}
+			else if (arr.length === 2) {
+				//joins all with "and" but no commas
+				//example: "bob and sam"
+				outStr = arr.join(' and ');
+			}
+			else if (arr.length > 2) {
+				//joins all with commas, but last one gets ", and" (oxford comma!)
+				//example: "bob, joe, and sam"
+				outStr = arr.slice(0, -1).join(', ') + ', and ' + arr.slice(-1);
+			}
+			return outStr;
+		}
 	</script>
 @endsection
