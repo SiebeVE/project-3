@@ -43,7 +43,7 @@
                         <a href="{{route('library')}}">Library</a>
                         <a href="{{route('user.view')}}">My profile</a>
                         <a href="{{route('book.index')}}">My books</a>
-                        <a href="{{ url('/logout') }}" data-method="post" data-csrf="{{csrf_token()}}">
+                        <a href="{{ url('/logout') }}" data-method="post" data-token="{{csrf_token()}}">
                             Logout
                         </a>
                     @endif
