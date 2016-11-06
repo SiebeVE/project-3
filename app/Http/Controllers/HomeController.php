@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\BookService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Book;
 
 class HomeController extends Controller
 {
@@ -30,7 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $randomBooks = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
+        $randomBooks = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->where('image', '<>', '')->inRandomOrder()->limit(4)->get();
 
         return view('home', compact('randomBooks'));
     }

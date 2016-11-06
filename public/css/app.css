@@ -5830,7 +5830,12 @@ table.table {
       .panel.panel-book .information ul li .fa {
         margin-right: 10px; }
 
-.panel.panel-book img.bookcover {
+.featured-books {
+  margin: 15px 0; }
+  .featured-books img {
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4); }
+
+img.bookcover {
   width: 100%; }
 
 .clickable {
