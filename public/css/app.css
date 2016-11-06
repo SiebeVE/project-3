@@ -5796,6 +5796,9 @@ table.table {
 #interactive.viewport video {
   width: 100%; }
 
+.results-search {
+  margin-top: 15px; }
+
 .panel.panel-book h1, .panel.panel-book h2 {
   margin-top: 0; }
 
