@@ -19,16 +19,7 @@ Route::get('/', function() {
 Auth::routes();
 
 
-
-// Library routes
-Route::get('/book/find', 'BookController@getFind')->name('book.find');
-Route::get('/book/{book}', 'BookController@view')->name('book.view');
-Route::get('library', 'LibraryController@index')->name('library');
-
-
 Route::get('/notifications', 'HomeController@getNotifications');
-
-Route::get('/book/add', 'BookController@getAdd')->name('book.add');
 
 // User books routes
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
