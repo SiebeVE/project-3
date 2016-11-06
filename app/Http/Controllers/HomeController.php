@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BookService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    protected $books;
+    protected $bookService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Book $books, BookService $bookService)
     {
+        $this->bookService = $bookService;
+        $this->books = $books;
         $this->middleware('auth');
     }
 
@@ -24,7 +30,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $randomBooks = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
+
+        return view('home', compact('randomBooks'));
     }
 
 	public function getNotifications () {
