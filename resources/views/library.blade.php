@@ -62,14 +62,13 @@
                         <div class="flex-card-content">
                             <h3>{{$book->title}}</h3>
                             <h4>{{$book->author}}</h4>
-                                @if($book->types)
-                                    <span>
+                            
+                            @if($book->types)
+                                <span>
                                         <i class="fa fa-bicycle" aria-hidden="true"></i>
-                                        @foreach($book->types as $typename => $type)
-                                            {{$typename}}: {{$type[0]["distance"]["duration"]["text"]}}
-                                        @endforeach
+                                    {{$book->closestTime}}
                                     </span>
-                                @endif
+                            @endif
                             <span class="pull-right">
                                 <i class="fa fa-eur" aria-hidden="true"></i>
                                 5,00

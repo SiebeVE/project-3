@@ -149,7 +149,18 @@ class BookService
 
         $books->each(function($book, $key) use ($availableBooks) {
             foreach($availableBooks as $availableBook) {
-                if($availableBook['id'] === $book->id) $book->types = $availableBook['types'];
+                if($availableBook['id'] === $book->id) {
+                    $closestValue = null;
+                    $closestTime = "";
+                    foreach ($availableBook['types'] as $type => $typedata) {
+                        if($closestValue > $typedata[0]['distance']['duration']['value'] || $closestValue == null) {
+                            $closestTime = $typedata[0]['distance']['duration']['text'];
+                            $closestValue = $typedata[0]['distance']['duration']['value'];
+                        }
+                    }
+                    $book->closestTime = $closestTime;
+                    $book->types = $availableBook['types'];
+                }
             }
         });
 
