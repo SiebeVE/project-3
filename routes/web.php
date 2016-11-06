@@ -32,5 +32,5 @@ Route::get('/book/{type}/{bookUser}', 'BookController@getBuyOrBorrow');
 Route::get('/book/{type}/confirm/{transaction}', 'BookController@getConfirmRecieved');
 Route::get('/book/borrow/confirm/giveBack/{transaction}', 'BookController@getConfirmGiveBack');
 
-Route::get('/book/find', 'BookController@getFind');
+Route::get('/book/find', 'BookController@getFind')->name('book.find');
 Route::get('/book/{book}', 'BookController@view')->name('book.view');

@@ -32,10 +32,6 @@
                     @yield('header_left')
                 </div>
 
-                <div class="pull-right">
-                    @yield('header_right')
-                </div>
-
 
                 <nav class="menu pull-right">
                     <!-- Authentication Links -->
@@ -53,6 +49,11 @@
                         </form>
                     @endif
                 </nav>
+
+
+                <div class="pull-right">
+                    @yield('header_right')
+                </div>
 
             </header>
 

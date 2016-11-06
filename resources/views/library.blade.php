@@ -7,6 +7,13 @@
     </a>
 @endsection
 
+@section('header_right')
+    <a href="{{route('book.find')}}">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        Search
+    </a>
+@endsection
+
 @section('content')
 
     <div class="container">

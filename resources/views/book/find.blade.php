@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('header_left')
-	<a href="/">
+	<a href="{{route('library')}}">
 		<i class="fa fa-chevron-left" aria-hidden="true"></i>
-		Home
+		Library
 	</a>
 @endsection
 
