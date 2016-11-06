@@ -29,10 +29,6 @@ Route::get('library', 'LibraryController@index')->name('library');
 Route::get('/notifications', 'HomeController@getNotifications');
 
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
-// Book transaction routes
-Route::get('/book/{type}/{bookUser}', 'BookController@getBuyOrBorrow')->name('book.buyorborrow');
-Route::get('/book/{type}/confirm/{transaction}', 'BookController@getConfirmRecieved');
-Route::get('/book/borrow/confirm/giveBack/{transaction}', 'BookController@getConfirmGiveBack');
 
 // User books routes
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
@@ -49,7 +45,7 @@ Route::get('/book/transaction/{transaction}', 'BookController@getTransaction')->
 // Book transaction routes
 Route::get('/book/transaction/{type}/{bookUser}', 'BookController@getBuyOrBorrow')->name('book.buyorborrow');
 Route::get('/book/transaction/{type}/confirm/{transaction}', 'BookController@getConfirmRecieved');
-Route::get('/book/transaction/confirm/giveBack/{transaction}', 'BookController@getConfirmGiveBack');
+Route::get('/book/transaction/borrow/confirm/giveBack/{transaction}', 'BookController@getConfirmGiveBack');
 
 // Library routes
 Route::get('/book/find', 'BookController@getFind')->name('book.find');
