@@ -55,7 +55,9 @@
                                     @foreach($book->owners as $owner)
                                         <tr>
                                             <td>{{$owner->pivot->condition}}</td>
-                                            <td><i class="fa fa-bicycle" aria-hidden="true"></i> x minutes</td>
+                                            <td>
+                                                {{$owner->pivot->type}}
+                                            </td>
                                             <td>
                                                 {{ $owner->pivot->price == 0 ? 'FREE' : '&euro;'.$owner->pivot->price }}
                                             </td>

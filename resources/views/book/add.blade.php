@@ -171,9 +171,9 @@
                                 var $listOfResults = $("#search-results");
                                 $listOfResults.empty();
                                 for (var book in books) {
-                                    var $bookTitle = $('<h3/>').html(books[book].volumeInfo.authors.join(', '));
-                                    var $bookAuthor = $('<h4/>').html(books[book].volumeInfo.title);
-                                    var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookTitle).append($bookAuthor);
+                                    var $bookTitle = $('<h4/>').html(formatArray(books[book].volumeInfo.authors));
+                                    var $bookAuthor = $('<h3/>').html(books[book].volumeInfo.title);
+                                    var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookAuthor).append($bookTitle);
                                     var $image = $("<img>");
                                     if (books[book].volumeInfo.hasOwnProperty("imageLinks")) {
                                         $image.attr("src", books[book].volumeInfo.imageLinks.smallThumbnail);
@@ -282,5 +282,21 @@
                 }
             });
         });
+
+        function formatArray(arr){
+            var outStr = "";
+            if (arr.length === 1) {
+                outStr = arr[0];
+            } else if (arr.length === 2) {
+                //joins all with "and" but no commas
+                //example: "bob and sam"
+                outStr = arr.join(' and ');
+            } else if (arr.length > 2) {
+                //joins all with commas, but last one gets ", and" (oxford comma!)
+                //example: "bob, joe, and sam"
+                outStr = arr.slice(0, -1).join(', ') + ', and ' + arr.slice(-1);
+            }
+            return outStr;
+        }
     </script>
 @endsection
