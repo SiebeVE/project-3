@@ -20,7 +20,8 @@ Auth::routes();
 
 Route::get('library', 'LibraryController@index')->name('library');
 
-Route::get('/home', 'HomeController@index');
+// not in use?
+//Route::get('/home', 'HomeController@index');
 
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
 
@@ -36,3 +37,6 @@ Route::get('/book/borrow/confirm/giveBack/{transaction}', 'BookController@getCon
 
 Route::get('/book/find', 'BookController@getFind')->name('book.find');
 Route::get('/book/{book}', 'BookController@view')->name('book.view');
+
+Route::get('user/edit', 'UserController@edit')->name('user.edit');
+Route::put('user/edit', 'UserController@update')->name('user.update');

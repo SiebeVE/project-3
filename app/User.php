@@ -36,6 +36,12 @@ class User extends Authenticatable
 		'remember_token',
 	];
 
+    // Check if the users information is complete or not
+    public function isComplete() {
+        if(empty($this->attributes['name']) || empty($this->attributes['street'])) return false;
+        return true;
+    }
+
 
 	// Filler for renamed function
 	public function book () {
