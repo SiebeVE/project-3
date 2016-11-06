@@ -62,7 +62,7 @@
                         <div class="flex-card-content">
                             <h3>{{$book->title}}</h3>
                             <h4>{{$book->author}}</h4>
-                            
+
                             @if($book->types)
                                 <span>
                                         <i class="fa fa-bicycle" aria-hidden="true"></i>
