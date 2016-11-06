@@ -39,6 +39,7 @@
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
                     @else
+                        <a href="{{route('notifications')}}">Notifications</a>
                         <a href="{{route('library')}}">Library</a>
                         <a href="{{route('user.view')}}">My profile</a>
                         <a href="{{route('book.index')}}">My books</a>

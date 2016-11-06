@@ -6,6 +6,8 @@ use App\Book;
 use App\BookTransaction;
 use App\BookUser;
 use App\ISO639;
+use App\Notifications\BookReceived;
+use App\Notifications\BookReceivedSend;
 use App\Notifications\BorrowRequest;
 use App\Notifications\BorrowRequestSend;
 use App\Services\BookService;
@@ -27,10 +29,11 @@ class BookController extends Controller
 
 
 	// Shows the user's books
-	public function index() {
-	    $books = Auth::user()->books;
-	    return view('book.index', compact('books'));
-    }
+	public function index () {
+		$books = Auth::user()->books;
+
+		return view('book.index', compact('books'));
+	}
 
 	public function getAdd () {
 		return view('book.add');
@@ -143,7 +146,9 @@ class BookController extends Controller
 	}
 
 	public function getBuyOrBorrow ($type, BookUser $bookUser) {
-	    if($type == 'free') $type = 'buy';
+		if ($type == 'free') {
+			$type = 'buy';
+		}
 
 		if ($type == "buy" || $type == "borrow") {
 			$typeArray = explode(',', $bookUser->type);
@@ -211,6 +216,8 @@ class BookController extends Controller
 				abort(403, "This user is not allowed to finish this transaction.");
 			}
 
+			$fromUser = $transaction->from;
+
 			$book = $transaction->book;
 			if ( ! ($book->status == 1 || $book->status == 3)) {
 				abort(401, "The book is no longer traveling.");
@@ -234,6 +241,9 @@ class BookController extends Controller
 					break;
 			}
 			$book->save();
+
+			$fromUser->notify(new BookReceived($type, $toUser, $book, $transaction));
+			$toUser->notify(new BookReceivedSend($type, $fromUser, $book));
 		}
 		else {
 			abort(401, "That action is not allowed.");
@@ -251,10 +261,12 @@ class BookController extends Controller
 	 */
 	public function view (Book $book) {
 
-		$book = $book->with(['ownersWithStatus0' => function($q) {
-		    $q->where('users.id', '<>', Auth::user()->id);
-        }])->findOrFail($book->id);
-        debug($book);
+		$book = $book->with([
+			'ownersWithStatus0' => function ($q) {
+				$q->where('users.id', '<>', Auth::user()->id);
+			}
+		])->findOrFail($book->id);
+		debug($book);
 
 		return view('book.view', compact('book'));
 	}

@@ -25,7 +25,7 @@ Route::get('/book/{book}', 'BookController@view')->name('book.view');
 Route::get('library', 'LibraryController@index')->name('library');
 
 
-Route::get('/notifications', 'HomeController@getNotifications');
+Route::get('/notifications', 'HomeController@getNotifications')->name('notifications');
 
 Route::get('/book/add', 'BookController@getAdd')->name('book.add');
 // Book transaction routes
