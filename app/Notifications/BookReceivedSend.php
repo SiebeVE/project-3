@@ -2,31 +2,30 @@
 
 namespace App\Notifications;
 
-use App\BookTransaction;
 use App\BookUser;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class BorrowRequestSend extends Notification
+class BookReceivedSend extends Notification
 {
-	use Queueable;
+    use Queueable;
 
-	private $type, $transaction, $book, $fromUser;
+	private $type, $fromUser, $bookUser;
 
 	/**
 	 * Create a new notification instance.
 	 *
 	 * @param $type
-	 * @param BookTransaction $transaction
+	 * @param User $fromUser
 	 * @param BookUser $bookUser
 	 */
-	public function __construct ($type, BookTransaction $transaction, BookUser $bookUser) {
+	public function __construct ($type, User $fromUser, BookUser $bookUser) {
 		$this->type = $type;
-		$this->transaction = $transaction;
-		$this->book = $bookUser->book;
-		$this->fromUser = $bookUser->user;
+		$this->fromUser = $fromUser;
+		$this->bookUser = $bookUser;
 	}
 
 	/**
@@ -49,10 +48,9 @@ class BorrowRequestSend extends Notification
 	 */
 	public function toArray ($notifiable) {
 		return [
-			"type"        => $this->type,
-			"transaction" => $this->transaction,
-			"book"        => $this->book,
-			"fromUser"    => $this->fromUser,
+			"type"   => $this->type,
+			"fromUser" => $this->fromUser,
+			"book"   => $this->bookUser->book,
 		];
 	}
 }

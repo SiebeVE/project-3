@@ -6,6 +6,10 @@ use App\Book;
 use App\BookTransaction;
 use App\BookUser;
 use App\ISO639;
+use App\Notifications\BookGiveBack;
+use App\Notifications\BookGiveBackSend;
+use App\Notifications\BookReceived;
+use App\Notifications\BookReceivedSend;
 use App\Notifications\BorrowRequest;
 use App\Notifications\BorrowRequestSend;
 use App\Services\BookService;
@@ -27,10 +31,11 @@ class BookController extends Controller
 
 
 	// Shows the user's books
-	public function index() {
-	    $books = Auth::user()->books;
-	    return view('book.index', compact('books'));
-    }
+	public function index () {
+		$books = Auth::user()->books;
+
+		return view('book.index', compact('books'));
+	}
 
 	public function getAdd () {
 		return view('book.add');
@@ -143,7 +148,9 @@ class BookController extends Controller
 	}
 
 	public function getBuyOrBorrow ($type, BookUser $bookUser) {
-	    if($type == 'free') $type = 'buy';
+		if ($type == 'free') {
+			$type = 'buy';
+		}
 
 		if ($type == "buy" || $type == "borrow") {
 			$typeArray = explode(',', $bookUser->type);
@@ -188,7 +195,9 @@ class BookController extends Controller
 
 	public function getConfirmGiveBack (BookTransaction $transaction) {
 		// Only user of the book can confirm it
-		if (Auth::user()->id != $transaction->from_id) {
+
+		$fromUser = Auth::user();
+		if ($fromUser->id != $transaction->from_id) {
 			abort(403, "This user isn't allowed to do this action.");
 		}
 
@@ -196,8 +205,13 @@ class BookController extends Controller
 			abort(401, "This book is not with the other party.");
 		}
 
+		$toUser = $transaction->to;
+
 		$transaction->book->status = 0;
 		$transaction->book->save();
+
+		$fromUser->notify(new BookGiveBack($toUser, $transaction->book));
+		$toUser->notify(new BookGiveBackSend($fromUser, $transaction->book));
 
 		return "done";
 	}
@@ -210,6 +224,8 @@ class BookController extends Controller
 			if ($toUser->id != $transaction->to_id) {
 				abort(403, "This user is not allowed to finish this transaction.");
 			}
+
+			$fromUser = $transaction->from;
 
 			$book = $transaction->book;
 			if ( ! ($book->status == 1 || $book->status == 3)) {
@@ -234,6 +250,9 @@ class BookController extends Controller
 					break;
 			}
 			$book->save();
+
+			$fromUser->notify(new BookReceived($type, $toUser, $book, $transaction));
+			$toUser->notify(new BookReceivedSend($type, $fromUser, $book));
 		}
 		else {
 			abort(401, "That action is not allowed.");
@@ -251,10 +270,12 @@ class BookController extends Controller
 	 */
 	public function view (Book $book) {
 
-		$book = $book->with(['ownersWithStatus0' => function($q) {
-		    $q->where('users.id', '<>', Auth::user()->id);
-        }])->findOrFail($book->id);
-        debug($book);
+		$book = $book->with([
+			'ownersWithStatus0' => function ($q) {
+				$q->where('users.id', '<>', Auth::user()->id);
+			}
+		])->findOrFail($book->id);
+		debug($book);
 
 		return view('book.view', compact('book'));
 	}
