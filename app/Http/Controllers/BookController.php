@@ -121,46 +121,6 @@ class BookController extends Controller
 		return $bookUser;
 	}
 
-	public function getConfirmRecieved ($type, BookTransaction $transaction) {
-		if ($type == "borrow" || $type == "buy") {
-			// Only allow the user
-			$toUser = Auth::user();
-
-			if ($toUser->id != $transaction->to_id) {
-				abort(403, "This user is not allowed to finish this transaction.");
-			}
-
-			$book = $transaction->book;
-			if (!($book->status == 1 || $book->status == 3)) {
-                abort(401, "The book is no longer traveling.");
-            }
-
-			switch ($type) {
-				case "buy":
-					$newBook = $book->replicate();
-					$newBook->push();
-
-					$newBook->status = 0;
-					$newBook->user_id = $toUser->id;
-					$newBook->price = 0;
-					$newBook->type = "borrow";
-					$newBook->save();
-
-					$book->status = 2;
-					break;
-				case "borrow":
-					$book->status = 4;
-					break;
-			}
-			$book->save();
-		}
-		else {
-			abort(401, "That action is not allowed.");
-		}
-
-		return "done";
-	}
-
 	public function getConfirmGiveBack (BookTransaction $transaction) {
 		// Only user of the book can confirm it
 		if(Auth::user()->id != $transaction->from_id)
@@ -177,45 +137,6 @@ class BookController extends Controller
 		$transaction->book->save();
 
 		return "done";
-	}
-
-
-	public function getBuyOrBorrow ($type, BookUser $bookUser) {
-		if ($type == "buy" || $type == "borrow") {
-			$typeArray = explode(',', $bookUser->type);
-
-			if ( ! in_array($type, $typeArray) || $bookUser->status != 0) {
-				abort(400, "You cannot " . $type . " this book.");
-			}
-			else if ($bookUser->user->id == Auth::user()->id) {
-				abort(400, "You cannot " . $type . " your own book.");
-			}
-
-			$toUser = Auth::user();
-			$fromUser = $bookUser->user;
-
-			$transaction = BookTransaction::create([
-				"book_id" => $bookUser->id,
-				"from_id" => $fromUser->id,
-				"to_id"   => $toUser->id,
-				"type"    => $type,
-			]);
-
-			switch ($type) {
-				case "buy":
-					$bookUser->status = 1;
-					break;
-				case "borrow":
-					$bookUser->status = 3;
-					break;
-			}
-			$bookUser->save();
-		}
-		else {
-			abort(401, "That action is not allowed.");
-		}
-
-		return $bookUser;
 	}
 
 	public function getConfirmRecieved ($type, BookTransaction $transaction) {
@@ -254,24 +175,6 @@ class BookController extends Controller
 		else {
 			abort(401, "That action is not allowed.");
 		}
-
-		return "done";
-	}
-
-	public function getConfirmGiveBack (BookTransaction $transaction) {
-		// Only user of the book can confirm it
-		if(Auth::user()->id != $transaction->from_id)
-		{
-			abort(403, "This user isn't allowed to do this action.");
-		}
-
-		if($transaction->book->status != 4)
-		{
-			abort(401, "This book is not with the other party.");
-		}
-
-		$transaction->book->status = 0;
-		$transaction->book->save();
 
 		return "done";
 	}
