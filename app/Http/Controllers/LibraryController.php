@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Book;
+use Auth;
 
 class LibraryController extends Controller
 {
@@ -22,7 +23,7 @@ class LibraryController extends Controller
     public function index(Request $request) {
         $books = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
 
-        $books = $this->bookService->getDistanceToBooksFromUser($books);
+        if(Auth::user()) $books = $this->bookService->getDistanceToBooksFromUser($books);
 
         return view('library', compact('books'));
     }

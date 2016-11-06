@@ -14,12 +14,6 @@
 			position: absolute;
 			left: 0;
 			top: 0;
-			width: 100%;
-		}
-		
-		video
-		{
-			width: 100%;
 		}
 		
 		#interactive.viewport
@@ -29,7 +23,7 @@
 	</style>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-8 col-md-offset-2" id="change-column" style="transition: all 0.3s ease;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">
@@ -52,7 +46,9 @@
 							</div>
 						</form>
 						<div class="results-search">
-							<ul id="search-results"></ul>
+							<!-- card list -->
+							<div class="flex-card-list" id="search-results">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -176,23 +172,27 @@
 							var $listOfResults = $("#search-results");
 							$listOfResults.empty();
 							for (var book in books) {
-								var $newBook = $("<li>");
-								var $link = $("<a>").attr("href", "/book/add/" + books [ book ].id);
+								var $bookTitle = $('<h3/>').html(books[ book ].volumeInfo.authors.join(', '));
+								var $bookAuthor = $('<h4/>').html(books[ book ].volumeInfo.title);
+								var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookTitle).append($bookAuthor);
 								var $image = $("<img>");
 								if (books[ book ].volumeInfo.hasOwnProperty("imageLinks")) {
 									$image.attr("src", books[ book ].volumeInfo.imageLinks.smallThumbnail);
 								}
 								else {
-									$image.attr("src", "https://www.hachettebookgroup.com/_b2c/static/site_theme/img/missingbook.png");
+									$image.attr("src", "/imgs/nocover1.png");
 								}
-								$newBook.append($link.append($image));
+								var $flexCardImage = $("<div/>").addClass('flex-card-image').append($image);
+								var $flexCard = $("<div/>").addClass('flex-card').append($flexCardImage).append($flexCardContent);
+								var $newBook = $("<a/>").addClass('flex-card-listitem').attr("href", "/book/add/" + books [ book ].id).append($flexCard);
+								
 								$listOfResults.append($newBook);
 							}
-							var $addNew = $("<li>");
-							var $linkNew = $("<a>").attr("href", "/book/add/new").text("Didn't found your book? Add a new one!");
-							$addNew.append($linkNew);
-							$listOfResults.append($addNew);
 							
+							var $bookTitle = $('<h3/>').html(books[ book ].volumeInfo.authors.join(', '));
+							var $bookAuthor = $('<h4/>').html(books[ book ].volumeInfo.title);
+							var $flexCardContent = $('<div/>').addClass('flex-card-content').append($bookTitle).append($bookAuthor);
+							var $image = $("<img>");
 							console.log(result);
 						},
 						dataType: "json"
@@ -208,11 +208,18 @@
 		$("#search").typeWatch(options);
 		
 		$("#search").focusin(function () {
-			$('#interactive').slideUp();
+			$('#interactive').slideUp(function () {
+				$('#change-column').removeClass();
+			});
+			
+			
 		});
 		$("#search").focusout(function () {
 			if (this.value.length == 0) {
-				$('#interactive').slideDown();
+				$('#change-column').addClass('col-md-8 col-md-offset-2');
+				setTimeout(function () {
+					$('#interactive').slideDown();
+				}, 300);
 			}
 		});
 		

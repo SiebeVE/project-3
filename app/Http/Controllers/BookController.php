@@ -102,11 +102,11 @@ class BookController extends Controller
 	}
 
 	public function getFind () {
-		// Get books with owners that are willing to sell
-		$books = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
+	    // Get books with owners that are willing to sell
+        $availableBooks = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
 
-		// Add the distances to the types
-		$availableBooks = $this->bookService->getDistanceToBooksFromUser($books);
+        // Add the distances to the types
+	    if(Auth::user()) $availableBooks = $this->bookService->getDistanceToBooksFromUser($availableBooks);
 
 		return view('book.find', compact('availableBooks'));
 	}
