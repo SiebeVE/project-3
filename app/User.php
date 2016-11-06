@@ -53,7 +53,7 @@ class User extends Authenticatable
 	}
 
 	public function books () {
-		return $this->belongsToMany(Book::class)->withPivot(["type", "condition", "status"]);
+		return $this->belongsToMany(Book::class)->withPivot(["type", "condition", "status", "id", "price"]);
 	}
 
 	public function getAddress () {

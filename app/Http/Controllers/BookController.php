@@ -23,6 +23,13 @@ class BookController extends Controller
 		$this->bookService = $bookService;
 	}
 
+
+	// Shows the user's books
+	public function index() {
+	    $books = Auth::user()->books;
+	    return view('book.index', compact('books'));
+    }
+
 	public function getAdd () {
 		return view('book.add');
 	}
@@ -128,6 +135,8 @@ class BookController extends Controller
 	}
 
 	public function getBuyOrBorrow ($type, BookUser $bookUser) {
+	    if($type == 'free') $type = 'buy';
+
 		if ($type == "buy" || $type == "borrow") {
 			$typeArray = explode(',', $bookUser->type);
 

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('header_left')
-    <a href="/">
+    <a href="{{route('user.view')}}">
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Home
+        Profile
     </a>
 @endsection
 
