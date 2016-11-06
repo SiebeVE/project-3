@@ -62,9 +62,11 @@ class BookController extends Controller
 			"condition" => $request->condition,
 		]);
 
-		dump($request);
-		dump(true);
+//		dump($request);
+//		dump(true);
 		debug("");
+
+	    return view('book.added');
 	}
 
 	public function getFind () {

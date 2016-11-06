@@ -5,6 +5,7 @@
 
 /* VARIABLES */
 $brandColor: #FF5335;
+$brandColorGreen: #61B136;
 
 $header-bg: #555;
 $menu-width: 250px !default;
@@ -38,6 +39,26 @@ a {
 
 table.table {
   margin-bottom: 0;
+}
+
+.brandColorGreenBackground {
+  background-color: $brandColorGreen !important;
+}
+
+.fa.fa-lg {
+  font-size: 160px;
+}
+
+.big-msg {
+  color: #fff;
+}
+
+
+
+
+////// Video stuff
+#interactive.viewport video {
+  width: 100%;
 }
 
 .panel.panel-book {
@@ -106,6 +127,7 @@ table.table {
 }
 
 .site-pusher {
+  background-color: #fff;
   background-image: url(../imgs/bg.jpg);
   background-size: cover;
   background-position: center;
@@ -132,6 +154,10 @@ table.table {
 
   .btn {
     margin-bottom: 15px;
+  }
+
+  &.flex-center {
+    justify-content: center;
   }
 }
 
@@ -309,13 +335,13 @@ table.table {
   padding-right: 20px;
 }
 
-label {
-  color: #666;
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 2em;
-  text-transform: uppercase;
-}
+//label {
+//  color: #666;
+//  font-size: 10px;
+//  font-weight: 500;
+//  line-height: 2em;
+//  text-transform: uppercase;
+//}
 
 // New product flex
 .flex-card-list {
@@ -379,7 +405,6 @@ label {
   }
 }
 
-
 /**
   * Custom select
   */
@@ -408,6 +433,9 @@ label {
 }
 
 .toggle-button label {
+    font-size: 13px;
+    //font-weight: 500;
+    line-height: 2em;
   display: inline-block;
   text-transform: uppercase;
   cursor: pointer;
@@ -457,7 +485,7 @@ label {
 }
 
 .toggle-button--vesi input[type=checkbox] + label {
-  width: 150px;
+  width: 160px;
   background: $brandColor;
 }
 
@@ -472,8 +500,8 @@ label {
 }
 
 .toggle-button--vesi input[type=checkbox]:checked ~ label {
-  width: 210px;
-  background: #61B136;
+  width: 240px;
+  background: $brandColorGreen;
 }
 
 .toggle-button--vesi input[type=checkbox]:checked ~ label:before {
