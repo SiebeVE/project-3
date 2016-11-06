@@ -119,6 +119,17 @@ table.table {
   }
 }
 
+
+// My books list with imgs
+.table.mybooks {
+  td > img {
+    height:3em;
+  }
+  td {
+    vertical-align: middle;
+  }
+}
+
 /**
   * Site structure;
   * Side menu

@@ -5840,6 +5840,12 @@ table.table {
 .clickable[aria-expanded="true"] .fa-chevron-right {
   display: none; }
 
+.table.mybooks td > img {
+  height: 3em; }
+
+.table.mybooks td {
+  vertical-align: middle; }
+
 /**
   * Site structure;
   * Side menu
