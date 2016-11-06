@@ -162,7 +162,7 @@ class BookController extends Controller
 			abort(401, "That action is not allowed.");
 		}
 
-		return $bookUser;
+		return redirect()->back()->with('status', "Request to {$type} this book sent!");
 	}
 
 	public function getConfirmGiveBack (BookTransaction $transaction) {
@@ -229,8 +229,9 @@ class BookController extends Controller
 	 * @return \Illuminate\Http\Response
 	 */
 	public function view (Book $book) {
-		$book = $book->with('owners')->findOrFail($book->id);
 
+		$book = $book->with('ownersWithStatus0')->findOrFail($book->id);
+        debug($book);
 		return view('book.view', compact('book'));
 	}
 }

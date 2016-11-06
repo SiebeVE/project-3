@@ -42,27 +42,30 @@
 
 
                     <div class="col-sm-8">
+
+                        {{-- Status--}}
+                        @include('partials.status')
+
                         <div class="panel panel-default">
                             <div class="panel-heading clickable" data-toggle="collapse" data-target="#owners">
                                 <h3 class="panel-title">
                                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                     <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                    {{$book->owners->count()}} available
+                                    {{$book->ownersWithStatus0->count()}} available
                                 </h3>
                             </div>
                             <div class="collapse" id="owners">
                                 <table class="table">
-                                    @foreach($book->owners as $owner)
+                                    @foreach($book->ownersWithStatus0 as $owner)
                                         <tr>
                                             <td>{{$owner->pivot->condition}}</td>
                                             <td>
                                                 {{$owner->pivot->type}}
                                             </td>
                                             <td>
-                                                {{ $owner->pivot->price == 0 ? 'FREE' : '&euro;'.$owner->pivot->price }}
-                                            </td>
-                                            <td>
-                                                <a href="{{route()}}" class="btn btn-sm btn-primay">buy/borrow</a>
+                                                @foreach(explode(',',$owner->pivot->type) as $type)
+                                                    <a href="{{route('book.buyorborrow', ["type"=>$type, "bookUser"=>$owner->pivot->id])}}" class="btn btn-sm btn-primary">{{$type}} for {{$owner->pivot->price}}</a>
+                                                @endforeach
                                             </td>
                                         </tr>
                                     @endforeach

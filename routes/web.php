@@ -30,7 +30,7 @@ Route::get('/book/add/new', 'BookController@getAddNew');
 Route::get('/book/add/{bookId}', 'BookController@getAddDetail');
 Route::post('/book/add/{bookId}', 'BookController@postAddDetail');
 
-Route::get('/book/{type}/{bookUser}', 'BookController@getBuyOrBorrow');
+Route::get('/book/{type}/{bookUser}', 'BookController@getBuyOrBorrow')->name('book.buyorborrow');
 Route::get('/book/{type}/confirm/{transaction}', 'BookController@getConfirmRecieved');
 Route::get('/book/borrow/confirm/giveBack/{transaction}', 'BookController@getConfirmGiveBack');
 
