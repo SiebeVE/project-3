@@ -17,6 +17,9 @@
 				</h3>
 			</div>
 			<div class="panel-body">
+
+				@include('partials.errors')
+
 				<form method="post">
 					{{ csrf_field() }}
 					@if( property_exists($book->volumeInfo, 'title') )

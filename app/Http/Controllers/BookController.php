@@ -64,7 +64,7 @@ class BookController extends Controller
 		return view('book.addDetail', ["book" => $book, "languages" => $languages]);
 	}
 
-	public function postAddDetail (Request $request, $bookId) {
+	public function postAddDetail (Requests\PostAddDetailBook $request, $bookId) {
 		$sessionBook = new stdClass;
 		$sessionBook->volumeInfo = new stdClass;
 
