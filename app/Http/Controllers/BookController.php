@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\BookTransaction;
 use App\BookUser;
+use App\ISO639;
 use App\Services\BookService;
 use Illuminate\Http\Request;
 
@@ -13,32 +14,56 @@ use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
-    protected $bookService;
-    protected $books;
+	protected $bookService;
+	protected $books;
 
-    public function __construct(BookService $bookService, Book $books)
-    {
-        $this->books = $books;
-        $this->bookService = $bookService;
-    }
+	public function __construct (BookService $bookService, Book $books) {
+		$this->books = $books;
+		$this->bookService = $bookService;
+	}
 
-    public function getAdd () {
+	public function getAdd () {
 		return view('book.add');
 	}
 
-	public function getAddDetail ($bookId) {
+	public function getAddDetail (Request $request, $bookId) {
 		$bookDetails = $this->getBookDetails($bookId);
 
-		return view('book.addDetail', ["book" => $bookDetails]);
+		$iso = new ISO639();
+
+		if(property_exists($bookDetails->volumeInfo, "language"))
+		{
+			$bookDetails->volumeInfo->fullLanguage = $iso->languageByCode1($bookDetails->volumeInfo->language);
+		}
+
+		$languages = $iso->getLanguages();
+
+		$request->session()->put('book', $bookDetails);
+
+		return view('book.addDetail', ["book" => $bookDetails, "languages" => $languages]);
 	}
 
 	public function postAddDetail (Request $request, $bookId) {
 		$bookDetails = $this->getBookDetails($bookId);
 		//dd($request);
 
+		//title
+		//authors
+		//image
+		//description
+		//pageCount
+		//language
+		//isbn
+		$sessionBook = NULL;
+		if ($request->session()->exists('book')) {
+			$sessionBook = $request->session()->get('book');
+		}
+
+		$bookISBN = property_exists($sessionBook->volumeInfo, "industryIdentifiers") ?  $sessionBook->volumeInfo->industryIdentifiers[1]->identifier : $request->book_isbn;
+
 		// Search if book already exists
-		$book = Book::where('isbn', $request->book_isbn)->get();
-		debug("Start checking if book" . $request->book_isbn . " exists.");
+		$book = Book::where('isbn', $bookISBN)->get();
+		debug("Start checking if book" . $bookISBN. " exists.");
 		if (count($book) > 0) {
 			debug("The book exists!");
 			$book = $book->first();
@@ -46,13 +71,13 @@ class BookController extends Controller
 		else {
 			debug("The book doesn't exist, create a new one.");
 			$book = Book::create([
-				'title'       => $request->book_title,
-				'isbn'        => $request->book_isbn,
-				'image'       => $request->book_image,
-				'description' => $request->book_description,
-				'author'      => $request->book_authors,
-				'pageCount'   => $request->book_pageCount ? $request->book_pageCount : NULL,
-				'language'    => $request->book_language,
+				'title'       => property_exists($sessionBook->volumeInfo, "title") ?  $sessionBook->volumeInfo->title : $request->book_title,
+				'isbn'        => $bookISBN,
+				'image'       => property_exists($sessionBook->volumeInfo, "imageLinks") ?  $sessionBook->volumeInfo->imageLinks->smallThumbnail : $request->book_image,
+				'description' => property_exists($sessionBook->volumeInfo, "description") ?  $sessionBook->volumeInfo->description : htmlentities($request->book_description, ENT_QUOTES),
+				'author'      => property_exists($sessionBook->volumeInfo, "authors") ? $this->makeAuthorsString($book->volumeInfo->authors) : $request->book_authors,
+				'pageCount'   => property_exists($sessionBook->volumeInfo, "pageCount") ?  $sessionBook->volumeInfo->pageCount : $request->book_pageCount,
+				'language'    => property_exists($sessionBook->volumeInfo, "language") ?  $sessionBook->volumeInfo->language : $request->book_language,
 			]);
 		}
 
@@ -68,15 +93,19 @@ class BookController extends Controller
 	}
 
 	public function getFind () {
-	    // Get books with owners that are willing to sell
-        $books = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
+		// Get books with owners that are willing to sell
+		$books = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
 
-        // Add the distances to the types
-	    $availableBooks = $this->bookService->getDistanceToBooksFromUser($books);
+		// Add the distances to the types
+		$availableBooks = $this->bookService->getDistanceToBooksFromUser($books);
 
-        return view('book.find', compact('availableBooks'));
+		return view('book.find', compact('availableBooks'));
 	}
 
+	private function makeAuthorsString($authors)
+	{
+		return join(' and ', array_filter(array_merge(array(join(', ', array_slice($authors, 0, -1))), array_slice($authors, -1)), 'strlen'));
+	}
 
 	private function getBookDetails ($bookId) {
 		$client = new \GuzzleHttp\Client();
@@ -128,13 +157,11 @@ class BookController extends Controller
 
 	public function getConfirmGiveBack (BookTransaction $transaction) {
 		// Only user of the book can confirm it
-		if(Auth::user()->id != $transaction->from_id)
-		{
+		if (Auth::user()->id != $transaction->from_id) {
 			abort(403, "This user isn't allowed to do this action.");
 		}
 
-		if($transaction->book->status != 4)
-		{
+		if ($transaction->book->status != 4) {
 			abort(401, "This book is not with the other party.");
 		}
 
@@ -154,7 +181,7 @@ class BookController extends Controller
 			}
 
 			$book = $transaction->book;
-			if (!($book->status == 1 || $book->status == 3)) {
+			if ( ! ($book->status == 1 || $book->status == 3)) {
 				abort(401, "The book is no longer traveling.");
 			}
 
@@ -192,7 +219,7 @@ class BookController extends Controller
 	 * @return \Illuminate\Http\Response
 	 */
 	public function view (Book $book) {
-	    $book = $book->with('owners')->findOrFail($book->id);
+		$book = $book->with('owners')->findOrFail($book->id);
 
 		return view('book.view', compact('book'));
 	}

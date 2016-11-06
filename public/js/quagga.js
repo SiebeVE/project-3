@@ -12377,12 +12377,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          // Look for "back" in label, or use last cam (typically back cam).
 	          return navigator.mediaDevices.enumerateDevices()
 	          .then(function(devices) {
+				  console.log("ok");
+				  console.log(devices);
 	            devices = devices.filter(function(d) {
 	              return d.kind === 'videoinput';
 	            });
-	            var back = devices.find(function(d) {
+	            var back = /*devices.find(function(d) {
 	              return d.label.toLowerCase().indexOf('back') !== -1;
-	            }) || (devices.length && devices[devices.length - 1]);
+	            }) || */(devices.length && devices[devices.length - 1]);
 	            if (back) {
 	              constraints.video.deviceId = face.exact ? {exact: back.deviceId} :
 	                                                        {ideal: back.deviceId};

@@ -67,7 +67,7 @@
 
                         <div class="description">
                             <p>
-                                {!!$book->description!!}
+                                {!!nl2br($book->description)!!}
                             </p>
                         </div>
 

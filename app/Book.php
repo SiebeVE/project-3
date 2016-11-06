@@ -4,7 +4,7 @@ namespace App;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Matriphe\ISO639\ISO639;
+use App\ISO639;
 
 class Book extends Model
 {

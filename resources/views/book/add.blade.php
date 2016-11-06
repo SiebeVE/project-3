@@ -14,6 +14,12 @@
 			position: absolute;
 			left: 0;
 			top: 0;
+			width: 100%;
+		}
+		
+		video
+		{
+			width: 100%;
 		}
 		
 		#interactive.viewport
@@ -30,8 +36,9 @@
 					<div class="panel-body">
 						<div id="interactive" class="viewport">
 							<video autoplay="true" preload="auto" src=""></video>
-							<canvas class="drawingBuffer" width="640" height="480"></canvas>
-							<br clear="all"></div>
+							<canvas class="drawingBuffer"></canvas>
+							<br clear="all">
+						</div>
 						<form>
 							<div class="input-field">
 								<label for="search">Search:</label>
