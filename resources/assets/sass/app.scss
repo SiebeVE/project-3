@@ -4,7 +4,8 @@
 @import "variables";
 
 /* VARIABLES */
-$brandColor: #d56a18;
+$brandColor: #FF5335;
+$brandColorGreen: #61B136;
 
 $header-bg: #555;
 $menu-width: 250px !default;
@@ -38,6 +39,26 @@ a {
 
 table.table {
   margin-bottom: 0;
+}
+
+.brandColorGreenBackground {
+  background-color: $brandColorGreen !important;
+}
+
+.fa.fa-lg {
+  font-size: 160px;
+}
+
+.big-msg {
+  color: #fff;
+}
+
+
+
+
+////// Video stuff
+#interactive.viewport video {
+  width: 100%;
 }
 
 .panel.panel-book {
@@ -106,6 +127,7 @@ table.table {
 }
 
 .site-pusher {
+  background-color: #fff;
   background-image: url(../imgs/bg.jpg);
   background-size: cover;
   background-position: center;
@@ -132,6 +154,10 @@ table.table {
 
   .btn {
     margin-bottom: 15px;
+  }
+
+  &.flex-center {
+    justify-content: center;
   }
 }
 
@@ -309,13 +335,13 @@ table.table {
   padding-right: 20px;
 }
 
-label {
-  color: #666;
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 2em;
-  text-transform: uppercase;
-}
+//label {
+//  color: #666;
+//  font-size: 10px;
+//  font-weight: 500;
+//  line-height: 2em;
+//  text-transform: uppercase;
+//}
 
 // New product flex
 .flex-card-list {
@@ -377,4 +403,147 @@ label {
   .flex-card-list li:nth-child(4n+1) {
     clear: both;
   }
+}
+
+/**
+  * Custom select
+  */
+//.condition-select {
+//  //height: 50px;
+//  border-radius: 2rem;
+//  background-color: $brandColor;
+//  color: #fff;
+//  border: none;
+//  box-shadow: none;
+//  outline:none;
+//}
+
+/**
+  * Custom checkboxes
+  */
+
+/*
+ * Toggle button styles
+ */
+.toggle-button {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  //margin: 0 20px;
+}
+
+.toggle-button label {
+    font-size: 13px;
+    //font-weight: 500;
+    line-height: 2em;
+  display: inline-block;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #fff;
+  text-align: left;
+}
+
+.toggle-button input {
+  display: none;
+}
+
+.toggle-button__icon {
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.toggle-button__icon:before, .toggle-button__icon:after {
+  content: "";
+  position: absolute;
+  top: 45%;
+  left: 35%;
+  transition: 0.2s ease-out;
+}
+
+/*
+ * Toggle button styles
+ */
+.toggle-button--vesi label {
+  height: 50px;
+  line-height: 50px;
+  transition: all 0.2s;
+  border-radius: 2rem;
+}
+
+.toggle-button--vesi label:before, .toggle-button--vesi label:after {
+  position: absolute;
+  right: 1.5rem;
+  transition: all 0.2s .15s ease-out;
+}
+
+.toggle-button--vesi label:before {
+  content: attr(data-on-text);
+}
+
+.toggle-button--vesi label:after {
+  content: attr(data-off-text);
+}
+
+.toggle-button--vesi input[type=checkbox] + label {
+  width: 160px;
+  background: $brandColor;
+}
+
+.toggle-button--vesi input[type=checkbox] + label:before {
+  opacity: 0;
+  transform: translate(0, 20px);
+}
+
+.toggle-button--vesi input[type=checkbox] + label:after {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.toggle-button--vesi input[type=checkbox]:checked ~ label {
+  width: 240px;
+  background: $brandColorGreen;
+}
+
+.toggle-button--vesi input[type=checkbox]:checked ~ label:before {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.toggle-button--vesi input[type=checkbox]:checked ~ label:after {
+  opacity: 0;
+  transform: translate(0, -20px);
+}
+
+.toggle-button--vesi input[type=checkbox]:checked ~ .toggle-button__icon:before {
+  transform: translate(-10%, 100%) rotate(45deg);
+  width: 16.66667px;
+}
+
+.toggle-button--vesi input[type=checkbox]:checked ~ .toggle-button__icon:after {
+  transform: translate(30%) rotate(-45deg);
+}
+
+.toggle-button--vesi .toggle-button__icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 50px;
+  width: 50px;
+}
+
+.toggle-button--vesi .toggle-button__icon:before, .toggle-button--vesi .toggle-button__icon:after {
+  height: 3px;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.toggle-button--vesi .toggle-button__icon:before {
+  width: 25px;
+  transform: rotate(90deg);
+}
+
+.toggle-button--vesi .toggle-button__icon:after {
+  width: 25px;
+  transform: rotate(0);
 }

@@ -31,19 +31,24 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-default">
-					<div class="panel-heading">Add a book</div>
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<i class="fa fa-plus"></i>
+							Add a book
+						</h3>
+					</div>
+					
+					<div id="interactive" class="viewport">
+						<video autoplay="true" preload="auto" src=""></video>
+						<canvas class="drawingBuffer" width="640" height="480"></canvas>
+					</div>
 					
 					<div class="panel-body">
-						<div id="interactive" class="viewport">
-							<video autoplay="true" preload="auto" src=""></video>
-							<canvas class="drawingBuffer"></canvas>
-							<br clear="all">
-						</div>
-						<form>
-							<div class="input-field">
-								<label for="search">Search:</label>
-								<input id="search" class="search" type="search"/>
-								<button type="button" class="search">Search</button>
+						<form class="form-inline">
+							<div class="form-group">
+								<label for="search">Or search:</label>
+								<input id="search" class="search form-control" type="search"/>
+								<button type="button" class="btn btn-primary search">Search</button>
 							</div>
 						</form>
 						<div class="results-search">
@@ -167,24 +172,27 @@
 							key: api_key_book
 						},
 						success: function ( result ) {
-							if (result.totalItems > 0) {
-								var books = result.items;
-								var $listOfResults = $("#search-results");
-								$listOfResults.empty();
-								for (var book in books) {
-									var $newBook = $("<li>");
-									var $link = $("<a>").attr("href", "/book/add/" + books [ book ].id);
-									var $image = $("<img>");
-									if (books[ book ].volumeInfo.hasOwnProperty("imageLinks")) {
-										$image.attr("src", books[ book ].volumeInfo.imageLinks.smallThumbnail);
-									}
-									else {
-										$image.attr("src", "https://www.hachettebookgroup.com/_b2c/static/site_theme/img/missingbook.png");
-									}
-									$newBook.append($link.append($image));
-									$listOfResults.append($newBook);
+							var books = result.items;
+							var $listOfResults = $("#search-results");
+							$listOfResults.empty();
+							for (var book in books) {
+								var $newBook = $("<li>");
+								var $link = $("<a>").attr("href", "/book/add/" + books [ book ].id);
+								var $image = $("<img>");
+								if (books[ book ].volumeInfo.hasOwnProperty("imageLinks")) {
+									$image.attr("src", books[ book ].volumeInfo.imageLinks.smallThumbnail);
 								}
+								else {
+									$image.attr("src", "https://www.hachettebookgroup.com/_b2c/static/site_theme/img/missingbook.png");
+								}
+								$newBook.append($link.append($image));
+								$listOfResults.append($newBook);
 							}
+							var $addNew = $("<li>");
+							var $linkNew = $("<a>").attr("href", "/book/add/new").text("Didn't found your book? Add a new one!");
+							$addNew.append($linkNew);
+							$listOfResults.append($addNew);
+							
 							console.log(result);
 						},
 						dataType: "json"
@@ -197,7 +205,16 @@
 			captureLength: 2
 		};
 		
-		$(".input-field #search").typeWatch(options);
+		$("#search").typeWatch(options);
+		
+		$("#search").focusin(function () {
+			$('#interactive').slideUp();
+		});
+		$("#search").focusout(function () {
+			if (this.value.length == 0) {
+				$('#interactive').slideDown();
+			}
+		});
 		
 		$(function () {
 			var App = {
@@ -245,8 +262,8 @@
 				if (App.lastResult !== code) {
 					App.lastResult = code;
 					console.log(result);
-					 var barcode = result.codeResult.code;
-//					var barcode = "9780312325862";
+					var barcode = result.codeResult.code;
+					//					var barcode = "9780312325862";
 					
 					$.ajax({
 						url: api_url_book,
@@ -256,7 +273,7 @@
 						},
 						success: function ( result ) {
 							console.log(result);
-							window.location = "{{ route('book.add') }}/"+result.items[0].id;
+							window.location = "{{ route('book.add') }}/" + result.items[ 0 ].id;
 						},
 						dataType: "json"
 					});
