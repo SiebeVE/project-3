@@ -20,9 +20,9 @@ class LibraryController extends Controller
     }
 
     public function index(Request $request) {
-        $books = $this->bookService->getDistanceToBooksFromUser($this->books->get());
+        $books = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
 
-        //dd($books);
+        $books = $this->bookService->getDistanceToBooksFromUser($books);
 
         return view('library', compact('books'));
     }

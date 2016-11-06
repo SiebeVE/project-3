@@ -32,15 +32,16 @@
 									<li>
 										<h4 class="title">{{ $book['title'] }}</h4>
 										<p class="author">{{ $book['author'] }}</p>
-										@foreach($book['type'] as $type=>$data)
-											<span class="type">{{ $type }}</span>
-											@foreach($data as $owned)
-												@if($owned["closest"])
-													<span class="distance">({{ $owned["distance"]["duration"]["text"] }})</span>
-												@endif
+										@if($book['types'])
+											@foreach($book['types'] as $typename => $type)
+												<span class="type">{{ $typename }}</span>
+												@foreach($type as $owned)
+													@if($owned["closest"])
+														<span class="distance">({{ $owned["distance"]["duration"]["text"] }})</span>
+													@endif
+												@endforeach
 											@endforeach
-										@endforeach
-										{{--<p class="type">{{ $book['type'] }}</p>--}}
+										@endif
 									</li>
 								@endforeach
 							</ul>

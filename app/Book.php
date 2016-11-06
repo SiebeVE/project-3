@@ -29,4 +29,8 @@ class Book extends Model
     public function owners() {
         return $this->belongsToMany(User::class)->withPivot(["type", "condition", "status", "price"]);
     }
+
+    public function ownersWithStatus0 () {
+        return $this->owners()->wherePivot('status', '0');
+    }
 }
