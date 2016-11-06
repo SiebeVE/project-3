@@ -64,6 +64,6 @@
         <!-- END site-pusher -->
     </div>
     <!-- END site-container -->
-
+    <script src="//cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
 </body>
 </html>

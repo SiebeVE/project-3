@@ -6,6 +6,8 @@ use App\Book;
 use App\BookTransaction;
 use App\BookUser;
 use App\ISO639;
+use App\Notifications\BorrowRequest;
+use App\Notifications\BorrowRequestSend;
 use App\Services\BookService;
 use Illuminate\Http\Request;
 
@@ -109,11 +111,13 @@ class BookController extends Controller
 	}
 
 	public function getFind () {
-	    // Get books with owners that are willing to sell
-        $availableBooks = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
+		// Get books with owners that are willing to sell
+		$availableBooks = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
 
-        // Add the distances to the types
-	    if(Auth::user()) $availableBooks = $this->bookService->getDistanceToBooksFromUser($availableBooks);
+		// Add the distances to the types
+		if (Auth::user()) {
+			$availableBooks = $this->bookService->getDistanceToBooksFromUser($availableBooks);
+		}
 
 		return view('book.find', compact('availableBooks'));
 	}
@@ -132,6 +136,10 @@ class BookController extends Controller
 		$bookResult = \GuzzleHttp\json_decode($res->getBody());
 
 		return $bookResult;
+	}
+
+	public function getTransaction (BookTransaction $transaction) {
+		return $transaction;
 	}
 
 	public function getBuyOrBorrow ($type, BookUser $bookUser) {
@@ -166,6 +174,10 @@ class BookController extends Controller
 					break;
 			}
 			$bookUser->save();
+
+			$bookUser->user->notify(new BorrowRequest(Auth::user(), $bookUser, $type));
+
+			$toUser->notify(new BorrowRequestSend($type, $transaction, $bookUser));
 		}
 		else {
 			abort(401, "That action is not allowed.");
@@ -243,6 +255,7 @@ class BookController extends Controller
 		    $q->where('users.id', '<>', Auth::user()->id);
         }])->findOrFail($book->id);
         debug($book);
+
 		return view('book.view', compact('book'));
 	}
 }
