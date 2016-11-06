@@ -22,7 +22,8 @@ class LibraryController extends Controller
     public function index(Request $request) {
         $books = $this->bookService->getDistanceToBooksFromUser($this->books->get());
 
-        //$books = $this->books->all();
+        //dd($books);
+
         return view('library', compact('books'));
     }
 }

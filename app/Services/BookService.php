@@ -26,23 +26,23 @@ class BookService
         // als we geen boeken krijgen, kunnen we er ook geen terug geven eh
         if(empty($books)) return $books;
 
-        // Get IDs from books and then fetch the books again with the proper relation attached
-        // Also only get books that have owners that are actually selling the book
-        $bookIds = $books->keys()->all();
-        $books = $this->books->with('owners')->has('owners')->find($bookIds);
+        // load owners on the books
+        $books = $books->load('owners');
 
         // Get distance from books
         $availableBooks = [];
         $owner_ids = [];
         $owners = [];
+
         foreach ($books as $book) {
             $newBook = [
+                "id" => $book->id,
                 "title"  => $book->title,
                 "author" => $book->author,
-                "type"   => [],
+                "types"   => [],
             ];
             $has_legit_owners = false;
-            foreach ($book->owner as $owner) {
+            foreach ($book->owners as $owner) {
                 if ($owner->pivot->status == 0) {
                     $has_legit_owners = true;
                     if ( ! in_array($owner->id, $owner_ids)) {
@@ -51,13 +51,16 @@ class BookService
                         $owners[] = $owner;
                     }
 
+                    // Add empty types property on book
+                    $newBook['types'] = [];
+
                     // loop over available types for this owner
                     $types = explode(',', $owner->pivot->type);
                     foreach ($types as $type) {
-                        if ( ! array_key_exists($type, $newBook["type"])) {
-                            $newBook["type"][ $type ] = [];
+                        if ( ! array_key_exists($type, $newBook['types'])) {
+                            $newBook['types'][$type] = [];
                         }
-                        $newBook["type"][ $type ][] = [
+                        $newBook['types'][ $type ][] = [
                             "owner_id" => $owner->id,
                             "distance" => 0,
                             "closest"  => false
@@ -65,6 +68,9 @@ class BookService
                     }
                 }
             }
+
+
+            //dump($newBook['types']);
 
             if ($has_legit_owners) {
                 $availableBooks[] = $newBook;
@@ -110,7 +116,7 @@ class BookService
         //Relink the books with the owner and distance
         foreach ($availableBooks as $key_book => $book) {
             debug($book["title"]);
-            foreach ($book["type"] as $key_type => $type) {
+            foreach ($book["types"] as $key_type => $type) {
                 debug($key_type);
                 $closest = NULL;
                 $closest_id = NULL;
@@ -127,7 +133,7 @@ class BookService
                         $closest = $distanceOwner["duration"]["value"];
                         $closest_id = $owner["owner_id"];
                     }
-                    $availableBooks[ $key_book ]["type"][ $key_type ][ $key_owner ]["distance"] = $distanceOwner;
+                    $availableBooks[ $key_book ]["types"][ $key_type ][ $key_owner ]["distance"] = $distanceOwner;
                 }
 
                 debug($closest);
@@ -135,12 +141,18 @@ class BookService
 
                 foreach ($type as $key_owner => $owner) {
                     if ($owner["owner_id"] == $closest_id) {
-                        $availableBooks[ $key_book ]["type"][ $key_type ][ $key_owner ]["closest"] = true;
+                        $availableBooks[ $key_book ]["types"][ $key_type ][ $key_owner ]["closest"] = true;
                     }
                 }
             }
         }
 
-        return $availableBooks;
+        $books->each(function($book, $key) use ($availableBooks) {
+            foreach($availableBooks as $availableBook) {
+                if($availableBook['id'] === $book->id) $book->types = $availableBook['types'];
+            }
+        });
+
+        return $books;
     }
 }

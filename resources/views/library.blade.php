@@ -56,7 +56,7 @@
                             <h3>{{$book->title}}</h3>
                             <span>
                                 <i class="fa fa-bicycle" aria-hidden="true"></i>
-                                5 min.
+                                {{$book->types[0][0]->distance->duration->text}}
                             </span>
                             <span class="pull-right">
                                 <i class="fa fa-eur" aria-hidden="true"></i>
