@@ -4,6 +4,8 @@
 
 Bookshare.ga is een lokale en sociale manier om boeken te delen, gratis, tegen betaling of in leen.
 
+In `/public/Artwork` zit wat random artwork.
+
 More info: https://docs.google.com/document/d/1JL2yXR3Gj7_qodSnezfVzFqSwn0yfbTV9qT0aPnBxGw/edit?usp=sharing
 
 ## Deployement
