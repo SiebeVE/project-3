@@ -272,7 +272,7 @@ class BookController extends Controller
 
 		$book = $book->with([
 			'ownersWithStatus0' => function ($q) {
-				$q->where('users.id', '<>', Auth::user()->id);
+				$q->where('users.id', '<>', (Auth::user() ? Auth::user()->id : null) );
 			}
 		])->findOrFail($book->id);
 		debug($book);

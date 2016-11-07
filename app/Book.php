@@ -33,4 +33,19 @@ class Book extends Model
     public function ownersWithStatus0 () {
         return $this->owners()->wherePivot('status', '0');
     }
+
+    public function getCheapestPrice() {
+        $owners = $this->ownersWithStatus0()->get();
+        $cheapestPrice = null;
+        foreach ($owners as $owner) {
+            if(in_array('free', explode(',',$owner->pivot->type))) return 'FREE';
+
+            if(in_array('buy', explode(',',$owner->pivot->type))) {
+                if($owner->pivot->price < $cheapestPrice || $cheapestPrice == null) $cheapestPrice = $owner->pivot->price;
+            }
+
+        }
+
+        return $cheapestPrice;
+    }
 }

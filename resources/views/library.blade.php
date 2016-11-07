@@ -69,9 +69,13 @@
                                     {{$book->closestTime}}
                                     </span>
                             @endif
+
+
                             <span class="pull-right">
-                                <i class="fa fa-eur" aria-hidden="true"></i>
-                                5,00
+                                @if($book->getCheapestPrice())
+                                    <i class="fa fa-eur" aria-hidden="true"></i>
+                                    {{$book->getCheapestPrice()}}
+                                @endif
                             </span>
                         </div>
                     </div>
