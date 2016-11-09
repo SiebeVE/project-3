@@ -27,6 +27,7 @@ body {
   font-size: 1em;
   line-height: 1.4;
   height: 100%;
+  background-color: #fff;
 
   margin: 0;
   padding: 0;
@@ -250,9 +251,10 @@ img.bookcover {
   font-weight: 700;
   padding: 0 25px;
   float: left;
+}
 
+.header {
   a:hover, a:focus, a:active {
-    color: #fff;
     text-decoration: none;
   }
 }

@@ -42,6 +42,8 @@
 
 
                 <nav class="menu pull-right">
+
+                    <a href="{{ route('library') }}">Library</a>
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <a href="{{ url('/login') }}">Login</a>
