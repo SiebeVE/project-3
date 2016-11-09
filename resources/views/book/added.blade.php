@@ -20,4 +20,8 @@
         </div>
 
     </div>
+
+    <script>
+        $('.site-pusher').addClass('brandColorBackground').css('background-image', 'none');
+    </script>
 @endsection
