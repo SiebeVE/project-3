@@ -38,7 +38,7 @@ class User extends Authenticatable
 
     // Check if the users information is complete or not
     public function isComplete() {
-        if(empty($this->attributes['name']) || empty($this->attributes['street'])) return false;
+        if(empty($this->attributes['firstname']) || empty($this->attributes['street'])) return false;
         return true;
     }
 
