@@ -239,7 +239,7 @@ class BookController extends Controller
 		$fromUser->notify(new BookGiveBack($toUser, $transaction->book));
 		$toUser->notify(new BookGiveBackSend($fromUser, $transaction->book));
 
-		return "done";
+		return redirect('/notifications');
 	}
 
 	public function getConfirmRecieved ($type, BookTransaction $transaction) {
@@ -284,7 +284,7 @@ class BookController extends Controller
 			abort(401, "That action is not allowed.");
 		}
 
-		return "done";
+		return redirect('/notifications');
 	}
 
 	/**
