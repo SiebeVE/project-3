@@ -251,7 +251,7 @@ img.bookcover {
   padding: 0 25px;
   float: left;
 
-  &:hover, &:focus, &:active {
+  a:hover, a:focus, a:active {
     color: #fff;
     text-decoration: none;
   }
