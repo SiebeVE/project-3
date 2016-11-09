@@ -5948,9 +5948,9 @@ img.bookcover {
   font-weight: 700;
   padding: 0 25px;
   float: left; }
-  .header__left a:hover, .header__left a:focus, .header__left a:active {
-    color: #fff;
-    text-decoration: none; }
+
+.header a:hover, .header a:focus, .header a:active {
+  text-decoration: none; }
 
 /* MENU */
 .menu {
