@@ -4,7 +4,7 @@
 @import "variables";
 
 /* VARIABLES */
-$brandColor: #FF5335;
+$brandColor: #FF9755;
 $brandColorGreen: #61B136;
 
 $header-bg: #555;
@@ -48,7 +48,7 @@ table.table {
 }
 
 .brandColorGreenBackground {
-  background-color: $brandColorGreen !important;
+  background-color: $brandColor !important;
 }
 
 .fa.fa-lg {
