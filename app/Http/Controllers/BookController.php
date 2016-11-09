@@ -88,9 +88,6 @@ class BookController extends Controller
 			if ( ! property_exists($sessionBook->volumeInfo, "title")) {
 				$toValidate['book_title'] = 'required';
 			}
-			if ( ! property_exists($sessionBook->volumeInfo, "imageLinks")) {
-				$toValidate['book_isbn'] = 'required';
-			}
 			if ( ! property_exists($sessionBook->volumeInfo, "description")) {
 				$toValidate['book_description'] = 'required';
 			}
