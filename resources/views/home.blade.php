@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header_left')
-    <a href="#">Booksharing</a>
+    <a href="#" class="logo"><span class="icon-logo"></span> Booksharing</a>
 @endsection
 
 @section('content')
