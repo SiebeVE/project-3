@@ -17,7 +17,7 @@ class CheckProfileCompletion
     {
         // Don't do anything if the user is complete, not logged in or currently updating the profile
         if( ! Auth::user() || Auth::user()->isComplete() || $request->route()->getName() == 'user.edit' ||  $request->route()->getName() == 'user.update')  {
-            dump( Auth::user()->isComplete() );
+//            dump($request->route()->getName() );
             return $next($request);
         }
         // Redirect the user to complete profile information
