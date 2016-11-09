@@ -32,7 +32,12 @@
 						</h3>
 					</div>
 					<div class="panel-body">
-						<b>Scan a barcode</b>
+						<p>
+							<strong>Scan the barcode</strong> on the back of the book to look for your book automagically.
+						</p>
+						<p>
+							No camera or no magic? We're sorry, feel free to search for your book bellow.
+						</p>
 					</div>
 					<div id="interactive" class="viewport">
 						<video autoplay="true" preload="auto" src=""></video>
