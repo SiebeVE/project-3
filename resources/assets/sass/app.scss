@@ -33,10 +33,16 @@ body {
   padding: 0;
 }
 
-h1.call-to-action {
-  color:#fff;
-  font-weight: bold;
-  text-shadow: 0px 0px 14px rgba(0, 0, 0, 0.4);
+.call-to-action {
+  color: #fff;
+  h1 {
+    font-weight: bold;
+    text-shadow: 0px 0px 14px rgba(0, 0, 0, 0.4);
+  }
+  .lead {
+    text-shadow: 0px 0px 22px rgb(0, 0, 0);
+  }
+
 }
 
 a {
@@ -58,16 +64,15 @@ table.table {
 
 .logo {
   font-family: 'Amatic SC', cursive;
-  font-size:1.5em;
+  font-size: 1.5em;
 }
-
 
 ///// iCONMOON STUFF
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?t2qpx1');
-  src:  url('../fonts/icomoon.eot?t2qpx1#iefix') format('embedded-opentype'),
+  src: url('../fonts/icomoon.eot?t2qpx1');
+  src: url('../fonts/icomoon.eot?t2qpx1#iefix') format('embedded-opentype'),
   url('../fonts/icomoon.ttf?t2qpx1') format('truetype'),
   url('../fonts/icomoon.woff?t2qpx1') format('woff'),
   url('../fonts/icomoon.svg?t2qpx1#icomoon') format('svg');
@@ -94,9 +99,6 @@ table.table {
   content: "\e900";
 }
 
-
-
-
 ////// Video stuff
 #interactive.viewport video {
   width: 100%;
@@ -104,7 +106,7 @@ table.table {
 
 ///// Search results
 .results-search {
-  margin-top:15px;
+  margin-top: 15px;
 }
 
 .panel.panel-book {
@@ -145,6 +147,7 @@ table.table {
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4);
   }
 }
+
 img.bookcover {
   width: 100%;
 }
@@ -167,11 +170,10 @@ img.bookcover {
   }
 }
 
-
 // My books list with imgs
 .table.mybooks {
   td > img {
-    height:3em;
+    height: 3em;
   }
   td {
     vertical-align: middle;
@@ -426,7 +428,7 @@ img.bookcover {
 
 .flex-card {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   flex-direction: column;
 
   width: 100%;
@@ -502,9 +504,9 @@ img.bookcover {
 }
 
 .toggle-button label {
-    font-size: 13px;
-    //font-weight: 500;
-    line-height: 2em;
+  font-size: 13px;
+  //font-weight: 500;
+  line-height: 2em;
   display: inline-block;
   text-transform: uppercase;
   cursor: pointer;

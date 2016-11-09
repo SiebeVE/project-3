@@ -5778,10 +5778,13 @@ body {
   margin: 0;
   padding: 0; }
 
-h1.call-to-action {
-  color: #fff;
-  font-weight: bold;
-  text-shadow: 0px 0px 14px rgba(0, 0, 0, 0.4); }
+.call-to-action {
+  color: #fff; }
+  .call-to-action h1 {
+    font-weight: bold;
+    text-shadow: 0px 0px 14px rgba(0, 0, 0, 0.4); }
+  .call-to-action .lead {
+    text-shadow: 0px 0px 22px black; }
 
 a {
   text-decoration: none;

@@ -6,8 +6,8 @@
 
 @section('content')
     <div class="flex-container flex-center">
-        <div class="text-center">
-            <h1 class="call-to-action">Have you read...</h1>
+        <div class="text-center call-to-action container">
+            <h1>Have you read...</h1>
 
             @if($randomBooks)
                 <div class="row featured-books">
@@ -20,6 +20,12 @@
                     @endforeach
                 </div>
             @endif
+
+            <p class="lead">
+                Bookshare.ga is a local and social book sharing website. Read awesome books and meet the awesome people that read them first!
+                <br>
+                Got any books laying around you want to share with your local community? Add them to Bookshare.ga!
+            </p>
 
             <div>
                 <a href="{{route('book.add')}}" class="btn btn-lg btn-primary">Add book</a>
