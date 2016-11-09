@@ -10,11 +10,12 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF9755">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=lkg75J0q38">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png?v=lkg75J0q38" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png?v=lkg75J0q38" sizes="16x16">
+    <link rel="manifest" href="/manifest.json?v=lkg75J0q38">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=lkg75J0q38" color="#ff9755">
+    <link rel="shortcut icon" href="/favicon.ico?v=lkg75J0q38">
     <meta name="theme-color" content="#ff9755">
 
     <!-- Styles -->
