@@ -21,288 +21,288 @@ use stdClass;
 
 class BookController extends Controller
 {
-	protected $bookService;
-	protected $books;
+    protected $bookService;
+    protected $books;
 
-	public function __construct (BookService $bookService, Book $books) {
-		$this->books = $books;
-		$this->bookService = $bookService;
-	}
+    public function __construct (BookService $bookService, Book $books) {
+        $this->books = $books;
+        $this->bookService = $bookService;
+    }
 
 
-	// Shows the user's books
-	public function index () {
-		$books = Auth::user()->books;
+    // Shows the user's books
+    public function index () {
+        $books = Auth::user()->books;
 
-		return view('book.index', compact('books'));
-	}
+        return view('book.index', compact('books'));
+    }
 
-	public function getAdd () {
-		return view('book.add');
-	}
+    public function getAdd () {
+        return view('book.add');
+    }
 
-	public function getAddDetail (Request $request, $bookId) {
-		$bookDetails = $this->getBookDetails($bookId);
+    public function getAddDetail (Request $request, $bookId) {
+        $bookDetails = $this->getBookDetails($bookId);
 
-		$iso = new ISO639();
+        $iso = new ISO639();
 
-		if (property_exists($bookDetails->volumeInfo, "language")) {
-			$bookDetails->volumeInfo->fullLanguage = $iso->languageByCode1($bookDetails->volumeInfo->language);
-		}
+        if (property_exists($bookDetails->volumeInfo, "language")) {
+            $bookDetails->volumeInfo->fullLanguage = $iso->languageByCode1($bookDetails->volumeInfo->language);
+        }
 
-		$languages = $iso->getLanguages();
+        $languages = $iso->getLanguages();
 
-		$request->session()->put('book', $bookDetails);
+        $request->session()->put('book', $bookDetails);
 
-		return view('book.addDetail', ["book" => $bookDetails, "languages" => $languages]);
-	}
+        return view('book.addDetail', ["book" => $bookDetails, "languages" => $languages]);
+    }
 
-	public function getAddNew (Request $request) {
-		$iso = new ISO639();
-		$languages = $iso->getLanguages();
+    public function getAddNew (Request $request) {
+        $iso = new ISO639();
+        $languages = $iso->getLanguages();
 
-		$book = new stdClass;
-		$book->volumeInfo = new stdClass;
+        $book = new stdClass;
+        $book->volumeInfo = new stdClass;
 
-		$request->session()->forget('book');
+        $request->session()->forget('book');
 
-		return view('book.addDetail', ["book" => $book, "languages" => $languages]);
-	}
+        return view('book.addDetail', ["book" => $book, "languages" => $languages]);
+    }
 
-	public function postAddDetail (Request $request, $bookId) {
-		// Validation
-		$toValidate = [
-			'condition'        => 'required',
-			'kind'             => 'required'
-		];
+    public function postAddDetail (Request $request, $bookId) {
+        // Validation
+        $toValidate = [
+            'condition'        => 'required',
+            'kind'             => 'required'
+        ];
 
-		$sessionBook = new stdClass;
-		$sessionBook->volumeInfo = new stdClass;
+        $sessionBook = new stdClass;
+        $sessionBook->volumeInfo = new stdClass;
 
-		if ($request->session()->exists('book')) {
-			debug("exists session");
-			$sessionBook = $request->session()->get('book');
-			if ( ! property_exists($sessionBook->volumeInfo, "industryIdentifiers")) {
-				$toValidate['book_isbn'] = 'required|numeric';
-			}
-			if ( ! property_exists($sessionBook->volumeInfo, "title")) {
-				$toValidate['book_title'] = 'required';
-			}
-			if ( ! property_exists($sessionBook->volumeInfo, "description")) {
-				$toValidate['book_description'] = 'required';
-			}
-			if ( ! property_exists($sessionBook->volumeInfo, "authors")) {
-				$toValidate['book_authors'] = 'required';
-			}
-			if ( ! property_exists($sessionBook->volumeInfo, "pageCount")) {
-				$toValidate['book_pageCount'] = 'required|numeric';
-			}
-			if ( ! property_exists($sessionBook->volumeInfo, "language")) {
-				$toValidate['book_language'] = 'required';
-			}
-		}
+        if ($request->session()->exists('book')) {
+            debug("exists session");
+            $sessionBook = $request->session()->get('book');
+            if ( ! property_exists($sessionBook->volumeInfo, "industryIdentifiers")) {
+                $toValidate['book_isbn'] = 'required|numeric';
+            }
+            if ( ! property_exists($sessionBook->volumeInfo, "title")) {
+                $toValidate['book_title'] = 'required';
+            }
+            if ( ! property_exists($sessionBook->volumeInfo, "description")) {
+                $toValidate['book_description'] = 'required';
+            }
+            if ( ! property_exists($sessionBook->volumeInfo, "authors")) {
+                $toValidate['book_authors'] = 'required';
+            }
+            if ( ! property_exists($sessionBook->volumeInfo, "pageCount")) {
+                $toValidate['book_pageCount'] = 'required|numeric';
+            }
+            if ( ! property_exists($sessionBook->volumeInfo, "language")) {
+                $toValidate['book_language'] = 'required';
+            }
+        }
 
-		$this->validate($request, $toValidate);
+        $this->validate($request, $toValidate);
 
-		$bookISBN = property_exists($sessionBook->volumeInfo, "industryIdentifiers") ? $sessionBook->volumeInfo->industryIdentifiers[1]->identifier : $request->book_isbn;
+        $bookISBN = property_exists($sessionBook->volumeInfo, "industryIdentifiers") ? $sessionBook->volumeInfo->industryIdentifiers[1]->identifier : $request->book_isbn;
 
-		// Search if book already exists
-		$book = Book::where('isbn', $bookISBN)->get();
-		debug("Start checking if book" . $bookISBN . " exists.");
-		if (count($book) > 0) {
-			debug("The book exists!");
-			$book = $book->first();
-		}
-		else {
-			debug("The book doesn't exist, create a new one.");
-			$book = Book::create([
-				'title'       => property_exists($sessionBook->volumeInfo, "title") ? $sessionBook->volumeInfo->title : $request->book_title,
-				'isbn'        => $bookISBN,
-				'image'       => property_exists($sessionBook->volumeInfo, "imageLinks") ? $sessionBook->volumeInfo->imageLinks->smallThumbnail : $request->book_image,
-				'description' => property_exists($sessionBook->volumeInfo, "description") ? $sessionBook->volumeInfo->description : htmlentities($request->book_description, ENT_QUOTES),
-				'author'      => property_exists($sessionBook->volumeInfo, "authors") ? $this->makeAuthorsString($sessionBook->volumeInfo->authors) : $request->book_authors,
-				'pageCount'   => property_exists($sessionBook->volumeInfo, "pageCount") ? $sessionBook->volumeInfo->pageCount : $request->book_pageCount,
-				'language'    => property_exists($sessionBook->volumeInfo, "language") ? $sessionBook->volumeInfo->language : $request->book_language,
-			]);
-		}
+        // Search if book already exists
+        $book = Book::where('isbn', $bookISBN)->get();
+        debug("Start checking if book" . $bookISBN . " exists.");
+        if (count($book) > 0) {
+            debug("The book exists!");
+            $book = $book->first();
+        }
+        else {
+            debug("The book doesn't exist, create a new one.");
+            $book = Book::create([
+                'title'       => property_exists($sessionBook->volumeInfo, "title") ? $sessionBook->volumeInfo->title : $request->book_title,
+                'isbn'        => $bookISBN,
+                'image'       => property_exists($sessionBook->volumeInfo, "imageLinks") ? $sessionBook->volumeInfo->imageLinks->smallThumbnail : $request->book_image,
+                'description' => property_exists($sessionBook->volumeInfo, "description") ? $sessionBook->volumeInfo->description : htmlentities($request->book_description, ENT_QUOTES),
+                'author'      => property_exists($sessionBook->volumeInfo, "authors") ? $this->makeAuthorsString($sessionBook->volumeInfo->authors) : $request->book_authors,
+                'pageCount'   => property_exists($sessionBook->volumeInfo, "pageCount") ? $sessionBook->volumeInfo->pageCount : $request->book_pageCount,
+                'language'    => property_exists($sessionBook->volumeInfo, "language") ? $sessionBook->volumeInfo->language : $request->book_language,
+            ]);
+        }
 
-		debug("Attach the book to the user");
+        debug("Attach the book to the user");
 
-		$user_book = $book->owner()->attach($request->user(), [
-			"type"      => implode($request->kind, ","),
-			"condition" => $request->condition,
-			"price"     => $request->book_price == "" ? NULL : intval($request->book_price),
-		]);
+        $user_book = $book->owner()->attach($request->user(), [
+            "type"      => implode($request->kind, ","),
+            "condition" => $request->condition,
+            "price"     => $request->book_price == "" ? NULL : intval($request->book_price),
+        ]);
 
 //		dump($request);
 //		dump(true);
-		debug("");
+        debug("");
 
-		return view('book.added');
-	}
+        return redirect()->route('book.added');
+    }
 
-	public function getFind () {
-		// Get books with owners that are willing to sell
-		$availableBooks = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
+    public function getFind () {
+        // Get books with owners that are willing to sell
+        $availableBooks = $this->books->with('ownersWithStatus0')->has('ownersWithStatus0')->get();
 
-		// Add the distances to the types
-		if (Auth::user()) {
-			$availableBooks = $this->bookService->getDistanceToBooksFromUser($availableBooks);
-		}
+        // Add the distances to the types
+        if (Auth::user()) {
+            $availableBooks = $this->bookService->getDistanceToBooksFromUser($availableBooks);
+        }
 
-		return view('book.find', compact('availableBooks'));
-	}
+        return view('book.find', compact('availableBooks'));
+    }
 
 
-	private function makeAuthorsString ($authors) {
-		return join(' and ', array_filter(array_merge(array(join(', ', array_slice($authors, 0, - 1))), array_slice($authors, - 1)), 'strlen'));
-	}
+    private function makeAuthorsString ($authors) {
+        return join(' and ', array_filter(array_merge(array(join(', ', array_slice($authors, 0, - 1))), array_slice($authors, - 1)), 'strlen'));
+    }
 
-	private function getBookDetails ($bookId) {
-		$client = new \GuzzleHttp\Client();
-		$res = $client->request('GET', env("API_URL_BOOK") . "/" . $bookId, [
-			'query' => ['key' => env("API_KEY_BOOK")]
-		]);
+    private function getBookDetails ($bookId) {
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('GET', env("API_URL_BOOK") . "/" . $bookId, [
+            'query' => ['key' => env("API_KEY_BOOK")]
+        ]);
 
-		$bookResult = \GuzzleHttp\json_decode($res->getBody());
+        $bookResult = \GuzzleHttp\json_decode($res->getBody());
 
-		return $bookResult;
-	}
+        return $bookResult;
+    }
 
-	public function getTransaction (BookTransaction $transaction) {
-		return $transaction;
-	}
+    public function getTransaction (BookTransaction $transaction) {
+        return $transaction;
+    }
 
-	public function getBuyOrBorrow ($type, BookUser $bookUser) {
-		if ($type == 'free') {
-			$type = 'buy';
-		}
+    public function getBuyOrBorrow ($type, BookUser $bookUser) {
+        if ($type == 'free') {
+            $type = 'buy';
+        }
 
-		if ($type == "buy" || $type == "borrow") {
-			$typeArray = explode(',', $bookUser->type);
+        if ($type == "buy" || $type == "borrow") {
+            $typeArray = explode(',', $bookUser->type);
 
-			if ( ! in_array($type, $typeArray) || $bookUser->status != 0) {
-				abort(400, "You cannot " . $type . " this book.");
-			}
-			else if ($bookUser->user->id == Auth::user()->id) {
-				abort(400, "You cannot " . $type . " your own book.");
-			}
+            if ( ! in_array($type, $typeArray) || $bookUser->status != 0) {
+                abort(400, "You cannot " . $type . " this book.");
+            }
+            else if ($bookUser->user->id == Auth::user()->id) {
+                abort(400, "You cannot " . $type . " your own book.");
+            }
 
-			$toUser = Auth::user();
-			$fromUser = $bookUser->user;
+            $toUser = Auth::user();
+            $fromUser = $bookUser->user;
 
-			$transaction = BookTransaction::create([
-				"book_id" => $bookUser->id,
-				"from_id" => $fromUser->id,
-				"to_id"   => $toUser->id,
-				"type"    => $type,
-			]);
+            $transaction = BookTransaction::create([
+                "book_id" => $bookUser->id,
+                "from_id" => $fromUser->id,
+                "to_id"   => $toUser->id,
+                "type"    => $type,
+            ]);
 
-			switch ($type) {
-				case "buy":
-					$bookUser->status = 1;
-					break;
-				case "borrow":
-					$bookUser->status = 3;
-					break;
-			}
-			$bookUser->save();
+            switch ($type) {
+                case "buy":
+                    $bookUser->status = 1;
+                    break;
+                case "borrow":
+                    $bookUser->status = 3;
+                    break;
+            }
+            $bookUser->save();
 
-			$bookUser->user->notify(new BorrowRequest(Auth::user(), $bookUser, $type));
+            $bookUser->user->notify(new BorrowRequest(Auth::user(), $bookUser, $type));
 
-			$toUser->notify(new BorrowRequestSend($type, $transaction, $bookUser));
-		}
-		else {
-			abort(401, "That action is not allowed.");
-		}
+            $toUser->notify(new BorrowRequestSend($type, $transaction, $bookUser));
+        }
+        else {
+            abort(401, "That action is not allowed.");
+        }
 
-		return redirect()->back()->with('status', "Request to {$type} this book sent!");
-	}
+        return redirect()->back()->with('status', "Request to {$type} this book sent!");
+    }
 
-	public function getConfirmGiveBack (BookTransaction $transaction) {
-		// Only user of the book can confirm it
+    public function getConfirmGiveBack (BookTransaction $transaction) {
+        // Only user of the book can confirm it
 
-		$fromUser = Auth::user();
-		if ($fromUser->id != $transaction->from_id) {
-			abort(403, "This user isn't allowed to do this action.");
-		}
+        $fromUser = Auth::user();
+        if ($fromUser->id != $transaction->from_id) {
+            abort(403, "This user isn't allowed to do this action.");
+        }
 
-		if ($transaction->book->status != 4) {
-			abort(401, "This book is not with the other party.");
-		}
+        if ($transaction->book->status != 4) {
+            abort(401, "This book is not with the other party.");
+        }
 
-		$toUser = $transaction->to;
+        $toUser = $transaction->to;
 
-		$transaction->book->status = 0;
-		$transaction->book->save();
+        $transaction->book->status = 0;
+        $transaction->book->save();
 
-		$fromUser->notify(new BookGiveBack($toUser, $transaction->book));
-		$toUser->notify(new BookGiveBackSend($fromUser, $transaction->book));
+        $fromUser->notify(new BookGiveBack($toUser, $transaction->book));
+        $toUser->notify(new BookGiveBackSend($fromUser, $transaction->book));
 
-		return redirect('/notifications');
-	}
+        return redirect('/notifications');
+    }
 
-	public function getConfirmRecieved ($type, BookTransaction $transaction) {
-		if ($type == "borrow" || $type == "buy") {
-			// Only allow the user
-			$toUser = Auth::user();
+    public function getConfirmRecieved ($type, BookTransaction $transaction) {
+        if ($type == "borrow" || $type == "buy") {
+            // Only allow the user
+            $toUser = Auth::user();
 
-			if ($toUser->id != $transaction->to_id) {
-				abort(403, "This user is not allowed to finish this transaction.");
-			}
+            if ($toUser->id != $transaction->to_id) {
+                abort(403, "This user is not allowed to finish this transaction.");
+            }
 
-			$fromUser = $transaction->from;
+            $fromUser = $transaction->from;
 
-			$book = $transaction->book;
-			if ( ! ($book->status == 1 || $book->status == 3)) {
-				abort(401, "The book is no longer traveling.");
-			}
+            $book = $transaction->book;
+            if ( ! ($book->status == 1 || $book->status == 3)) {
+                abort(401, "The book is no longer traveling.");
+            }
 
-			switch ($type) {
-				case "buy":
-					$newBook = $book->replicate();
-					$newBook->push();
+            switch ($type) {
+                case "buy":
+                    $newBook = $book->replicate();
+                    $newBook->push();
 
-					$newBook->status = 0;
-					$newBook->user_id = $toUser->id;
-					$newBook->price = 0;
-					$newBook->type = "borrow";
-					$newBook->save();
+                    $newBook->status = 0;
+                    $newBook->user_id = $toUser->id;
+                    $newBook->price = 0;
+                    $newBook->type = "borrow";
+                    $newBook->save();
 
-					$book->status = 2;
-					break;
-				case "borrow":
-					$book->status = 4;
-					break;
-			}
-			$book->save();
+                    $book->status = 2;
+                    break;
+                case "borrow":
+                    $book->status = 4;
+                    break;
+            }
+            $book->save();
 
-			$fromUser->notify(new BookReceived($type, $toUser, $book, $transaction));
-			$toUser->notify(new BookReceivedSend($type, $fromUser, $book));
-		}
-		else {
-			abort(401, "That action is not allowed.");
-		}
+            $fromUser->notify(new BookReceived($type, $toUser, $book, $transaction));
+            $toUser->notify(new BookReceivedSend($type, $fromUser, $book));
+        }
+        else {
+            abort(401, "That action is not allowed.");
+        }
 
-		return redirect('/notifications');
-	}
+        return redirect('/notifications');
+    }
 
-	/**
-	 * Displays detailed information about a book
-	 *
-	 * @param Book $book
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function view (Book $book) {
+    /**
+     * Displays detailed information about a book
+     *
+     * @param Book $book
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view (Book $book) {
 
-		$book = $book->with([
-			'ownersWithStatus0' => function ($q) {
-				$q->where('users.id', '<>', (Auth::user() ? Auth::user()->id : NULL));
-			}
-		])->findOrFail($book->id);
-		debug($book);
+        $book = $book->with([
+            'ownersWithStatus0' => function ($q) {
+                $q->where('users.id', '<>', (Auth::user() ? Auth::user()->id : NULL));
+            }
+        ])->findOrFail($book->id);
+        debug($book);
 
-		return view('book.view', compact('book'));
-	}
+        return view('book.view', compact('book'));
+    }
 }

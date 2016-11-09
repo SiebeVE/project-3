@@ -31,6 +31,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/my-books', 'BookController@index')->name('book.index');
     Route::get('/book/add/{bookId}', 'BookController@getAddDetail');
     Route::post('/book/add/{bookId}', 'BookController@postAddDetail');
+    Route::get('/book/added', function () {
+        return view('book.added');
+    })->name('book.added');
 
     Route::get('/book/transaction/{transaction}', 'BookController@getTransaction')->name('book.transaction');
 
