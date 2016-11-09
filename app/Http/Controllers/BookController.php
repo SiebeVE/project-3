@@ -69,14 +69,43 @@ class BookController extends Controller
 		return view('book.addDetail', ["book" => $book, "languages" => $languages]);
 	}
 
-	public function postAddDetail (Requests\PostAddDetailBook $request, $bookId) {
+	public function postAddDetail (Request $request, $bookId) {
+		// Validation
+		$toValidate = [
+			'condition'        => 'required',
+			'kind'             => 'required'
+		];
+
 		$sessionBook = new stdClass;
 		$sessionBook->volumeInfo = new stdClass;
 
 		if ($request->session()->exists('book')) {
 			debug("exists session");
 			$sessionBook = $request->session()->get('book');
+			if ( ! property_exists($sessionBook->volumeInfo, "industryIdentifiers")) {
+				$toValidate['book_isbn'] = 'required|numeric';
+			}
+			if ( ! property_exists($sessionBook->volumeInfo, "title")) {
+				$toValidate['book_title'] = 'required';
+			}
+			if ( ! property_exists($sessionBook->volumeInfo, "imageLinks")) {
+				$toValidate['book_isbn'] = 'required';
+			}
+			if ( ! property_exists($sessionBook->volumeInfo, "description")) {
+				$toValidate['book_description'] = 'required';
+			}
+			if ( ! property_exists($sessionBook->volumeInfo, "authors")) {
+				$toValidate['book_authors'] = 'required';
+			}
+			if ( ! property_exists($sessionBook->volumeInfo, "pageCount")) {
+				$toValidate['book_pageCount'] = 'required|numeric';
+			}
+			if ( ! property_exists($sessionBook->volumeInfo, "language")) {
+				$toValidate['book_language'] = 'required';
+			}
 		}
+
+		$this->validate($request, $toValidate);
 
 		$bookISBN = property_exists($sessionBook->volumeInfo, "industryIdentifiers") ? $sessionBook->volumeInfo->industryIdentifiers[1]->identifier : $request->book_isbn;
 
@@ -94,7 +123,7 @@ class BookController extends Controller
 				'isbn'        => $bookISBN,
 				'image'       => property_exists($sessionBook->volumeInfo, "imageLinks") ? $sessionBook->volumeInfo->imageLinks->smallThumbnail : $request->book_image,
 				'description' => property_exists($sessionBook->volumeInfo, "description") ? $sessionBook->volumeInfo->description : htmlentities($request->book_description, ENT_QUOTES),
-				'author'      => property_exists($sessionBook->volumeInfo, "authors") ? $this->makeAuthorsString($book->volumeInfo->authors) : $request->book_authors,
+				'author'      => property_exists($sessionBook->volumeInfo, "authors") ? $this->makeAuthorsString($sessionBook->volumeInfo->authors) : $request->book_authors,
 				'pageCount'   => property_exists($sessionBook->volumeInfo, "pageCount") ? $sessionBook->volumeInfo->pageCount : $request->book_pageCount,
 				'language'    => property_exists($sessionBook->volumeInfo, "language") ? $sessionBook->volumeInfo->language : $request->book_language,
 			]);
@@ -272,7 +301,7 @@ class BookController extends Controller
 
 		$book = $book->with([
 			'ownersWithStatus0' => function ($q) {
-				$q->where('users.id', '<>', (Auth::user() ? Auth::user()->id : null) );
+				$q->where('users.id', '<>', (Auth::user() ? Auth::user()->id : NULL));
 			}
 		])->findOrFail($book->id);
 		debug($book);
