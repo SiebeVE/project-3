@@ -31,7 +31,9 @@
 							Add a book
 						</h3>
 					</div>
-					
+					<div class="panel-body">
+						<b>Scan a barcode</b>
+					</div>
 					<div id="interactive" class="viewport">
 						<video autoplay="true" preload="auto" src=""></video>
 						<canvas class="drawingBuffer" width="640" height="480"></canvas>
